@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration - TKR Hack Conquest 2.0</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d4ff;
+            --secondary: #6366f1;
+            --accent: #f59e0b;
+            --dark: #0a0e27;
+            --darker: #050614;
+            --text: #e0e7ff;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--darker);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .stars-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            padding: 2rem 0;
+            text-align: center;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { 
+                opacity: 0; 
+                transform: translateY(-30px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--accent);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .form-container {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(0, 212, 255, 0.05));
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-top: 2rem;
+            animation: fadeInUp 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 212, 255, 0.05), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        form {
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 1.5rem;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        label .required {
+            color: var(--accent);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            background: rgba(10, 14, 39, 0.6);
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-family: 'Exo 2', sans-serif;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(10, 14, 39, 0.8);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 2rem;
+            padding: 1rem 0;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"] {
+            width: auto;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .team-member-card {
+            background: rgba(10, 14, 39, 0.4);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .fee-display {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(0, 212, 255, 0.1));
+            border: 2px solid var(--success);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            display: none;
+        }
+
+        .fee-label {
+            font-size: 1rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .fee-amount {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--success);
+        }
+
+        /* QR Code Section */
+        .qr-section {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(99, 102, 241, 0.1));
+            border: 2px dashed var(--accent);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            display: none;
+        }
+
+        .qr-placeholder {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 1rem;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(10, 14, 39, 0.4);
+            font-size: 3rem;
+        }
+
+        .qr-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .qr-instruction {
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        /* File Upload Section */
+        .file-upload-section {
+            background: rgba(10, 14, 39, 0.4);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            display: none;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            background: rgba(0, 212, 255, 0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--accent);
+        }
+
+        .upload-area.dragover {
+            background: rgba(0, 212, 255, 0.15);
+            border-color: var(--success);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-hint {
+            font-size: 0.9rem;
+            color: rgba(224, 231, 255, 0.6);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-info {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .file-info.show {
+            display: block;
+        }
+
+        .file-name {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .file-size {
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+
+        .file-error {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error);
+            border-radius: 8px;
+            color: var(--error);
+            display: none;
+        }
+
+        .file-error.show {
+            display: block;
+        }
+
+        .btn {
+            padding: 1.2rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Exo 2', sans-serif;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--darker);
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.5);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(0, 212, 255, 0.1));
+            border: 2px solid var(--success);
+            border-radius: 20px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .success-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 6, 20, 0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-overlay.show {
+            display: flex;
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(0, 212, 255, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid var(--error);
+            color: var(--error);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .qr-code-item {
+            text-align: center;
+        }
+
+        .qr-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .qr-amount {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .form-container {
+                padding: 1.5rem;
+            }
+
+            .logo-text {
+                font-size: 1.5rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .qr-placeholder {
+                width: 200px;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars-bg" id="starsContainer"></div>
+
+    <div class="container">
+        <header>
+            <h1 class="logo-text">TKR HACK CONQUEST 2.0</h1>
+            <p class="subtitle">Register Your Team</p>
+            <a href="index.html" class="back-link">← Back to Home</a>
+        </header>
+
+        <div class="form-container">
+            <form id="registrationForm">
+                <!-- Team Details Section -->
+                <div class="form-section">
+                    <h2 class="section-title">Team Details</h2>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="teamName">Team Name <span class="required">*</span></label>
+                            <input type="text" id="teamName" name="teamName" placeholder="Enter your team name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="teamSize">Team Size <span class="required">*</span></label>
+                            <select id="teamSize" name="teamSize" required>
+                                <option value="">Select team size</option>
+                                <option value="1">1 Member (Solo)</option>
+                                <option value="2">2 Members</option>
+                                <option value="3">3 Members</option>
+                                <option value="4">4 Members</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>IEEE Member? <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <div class="radio-option">
+                                    <input type="radio" id="ieeeYes" name="ieeeMember" value="yes" required>
+                                    <label for="ieeeYes">Yes</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="ieeeNo" name="ieeeMember" value="no">
+                                    <label for="ieeeNo">No</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <!-- Fee Display -->
+                <div class="fee-display" id="feeDisplay">
+                    <div class="fee-label">Registration Fee</div>
+                    <div class="fee-amount" id="feeAmount">₹0</div>
+                </div>
+
+                <!-- Team Lead Information -->
+                <div class="form-section" id="teamLeadSection" >
+                    <h2 class="section-title">Team Lead Information</h2>
+                    
+                    <div class="team-member-card">
+                        <div class="card-header">👤 Team Lead Details</div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="lead_name">Full Name <span class="required">*</span></label>
+                                <input type="text" id="lead_name" name="lead_name" placeholder="Enter full name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lead_mobile">Mobile Number <span class="required">*</span></label>
+                                <input type="tel" id="lead_mobile" name="lead_mobile" placeholder="10-digit mobile" pattern="[0-9]{10}" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lead_email">Email ID <span class="required">*</span></label>
+                                <input type="email" id="lead_email" name="lead_email" placeholder="email@example.com" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lead_college">College Name <span class="required">*</span></label>
+                                <input type="text" id="lead_college" name="lead_college" placeholder="Enter college name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lead_roll">Roll Number <span class="required">*</span></label>
+                                <input type="text" id="lead_roll" name="lead_roll" placeholder="Enter roll number" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lead_branch">Branch/Department <span class="required">*</span></label>
+                                <input type="text" id="lead_branch" name="lead_branch" placeholder="E.g., CSE, ECE, EEE" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lead_year">Year <span class="required">*</span></label>
+                                <select id="lead_year" name="lead_year" required>
+                                    <option value="">Select year</option>
+                                    <option value="1st Year">1st Year</option>
+                                    <option value="2nd Year">2nd Year</option>
+                                    <option value="3rd Year">3rd Year</option>
+                                    <option value="4th Year">4th Year</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Team Members -->
+                <div id="teamMembersContainer"></div>
+
+                <!-- IEEE Membership IDs Section -->
+                <div id="ieeeMembershipIdsContainer" style="display: none;"></div>
+
+                <!-- QR Code Section -->
+                <div class="qr-section" id="qrSection">
+                    <h2 class="qr-title">💳 Payment QR Code</h2>
+                    
+                    <!-- QR Code will be shown based on team size and IEEE membership -->
+                    <div id="qrCodeDisplay">
+                        <!-- 1 Member IEEE -->
+                        <div class="qr-code-item" data-size="1" data-type="ieee" style="display: none;">
+                            <p class="qr-label">1 Member - IEEE Member</p>
+                            <div class="qr-placeholder">
+                                <span>📱 QR Code 1</span>
+                            </div>
+                            <p class="qr-amount">Amount: ₹450</p>
+                        </div>
+
+                        <!-- 1 Member Non-IEEE -->
+                        <div class="qr-code-item" data-size="1" data-type="nonIeee" style="display: none;">
+                            <p class="qr-label">1 Member - Non-IEEE Member</p>
+                            <div class="qr-placeholder">
+                                <img src="./QR/qrcode.jpeg" alt="" height="100%">
+                                
+                            </div>
+                            <p class="qr-amount">Amount: ₹500</p>
+                        </div>
+
+                        <!-- 2 Members IEEE -->
+                        <div class="qr-code-item" data-size="2" data-type="ieee" style="display: none;">
+                            <p class="qr-label">2 Members - IEEE Member</p>
+                            <div class="qr-placeholder">
+                                <span>📱 QR Code 3</span>
+                            </div>
+                            <p class="qr-amount">Amount: ₹800</p>
+                        </div>
+
+                        <!-- 2 Members Non-IEEE -->
+                        <div class="qr-code-item" data-size="2" data-type="nonIeee" style="display: none;">
+                            <p class="qr-label">2 Members - Non-IEEE Member</p>
+                            <div class="qr-placeholder">
+                                <span>📱 QR Code 4</span>
+                            </div>
+                            <p class="qr-amount">Amount: ₹900</p>
+                        </div>
+
+                        <!-- 3 Members IEEE -->
+                        <div class="qr-code-item" data-size="3" data-type="ieee" style="display: none;">
+                            <p class="qr-label">3 Members - IEEE Member</p>
+                            <div class="qr-placeholder">
+                                <span>📱 QR Code 5</span>
+                            </div>
+                            <p class="qr-amount">Amount: ₹1200</p>
+                        </div>
+
+                        <!-- 3 Members Non-IEEE -->
+                        <div class="qr-code-item" data-size="3" data-type="nonIeee" style="display: none;">
+                            <p class="qr-label">3 Members - Non-IEEE Member</p>
+                            <div class="qr-placeholder">
+                                <span>📱 QR Code 6</span>
+                            </div>
+                            <p class="qr-amount">Amount: ₹1350</p>
+                        </div>
+
+                        <!-- 4 Members IEEE -->
+                        <div class="qr-code-item" data-size="4" data-type="ieee" style="display: none;">
+                            <p class="qr-label">4 Members - IEEE Member</p>
+                            <div class="qr-placeholder">
+                                <span>📱 QR Code 7</span>
+                            </div>
+                            <p class="qr-amount">Amount: ₹1400</p>
+                        </div>
+
+                        <!-- 4 Members Non-IEEE -->
+                        <div class="qr-code-item" data-size="4" data-type="nonIeee" style="display: none;">
+                            <p class="qr-label">4 Members - Non-IEEE Member</p>
+                            <div class="qr-placeholder">
+                                <span>📱 QR Code 8</span>
+                            </div>
+                            <p class="qr-amount">Amount: ₹1600</p>
+                        </div>
+                    </div>
+
+                    <p class="qr-instruction" style="margin-top: 1rem;">Scan the QR code above to make payment</p>
+                    <p class="qr-instruction" style="margin-top: 0.5rem; color: var(--accent);">
+                        After payment, upload the screenshot below
+                    </p>
+                </div>
+
+                <!-- Payment Screenshot Upload Section -->
+                <div class="file-upload-section" id="uploadSection">
+                    <h2 class="section-title">Payment Screenshot</h2>
+                    
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📸</div>
+                        <div class="upload-text">Click to upload or drag and drop</div>
+                        <div class="upload-hint">Payment screenshot (Max 100 KB, JPG/PNG)</div>
+                        <input type="file" id="paymentScreenshot" name="paymentScreenshot" class="file-input" accept="image/jpeg,image/jpg,image/png" required>
+                    </div>
+
+                    <div class="file-info" id="fileInfo">
+                        <div class="file-name" id="fileName"></div>
+                        <div class="file-size" id="fileSize"></div>
+                    </div>
+
+                    <div class="file-error" id="fileError"></div>
+                </div>
+
+                <!-- Error Message -->
+                <div class="error-message" id="errorMessage"></div>
+
+                <!-- Submit Button -->
+                <div class="form-section" id="submitSection" style="display: none;">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        🚀 Complete Registration
+                    </button>
+                </div>
+            </form>
+
+            <!-- Success Message -->
+            <div class="success-message" id="successMessage">
+                <div class="success-icon">✅</div>
+                <h3 class="success-title">Registration Successful!</h3>
+                <p>Thank you for registering for TKR Hack Conquest 2.0. Your data has been saved to the spreadsheet.</p>
+                <p style="margin-top: 1rem;">You will receive a confirmation email shortly.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p style="color: var(--primary); font-size: 1.2rem;">Submitting registration...</p>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ IMPORTANT: Replace this with your actual Google Apps Script Web App URL
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyk8RUa59SK6RYXRSZsu7reAR0ST8cxdxjyAr2r6vTaYhf2D2uNGGDG_GVgnF7GDTrx/exec';
+
+        // Maximum file size in bytes (100 KB)
+        const MAX_FILE_SIZE = 100 * 1024; // 100 KB
+
+        // Generate stars
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            const numberOfStars = 150;
+
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                const size = Math.random() * 3;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                
+                container.appendChild(star);
+            }
+        }
+
+        // Fee structure
+        const feeStructure = {
+            '1': { ieee: 450, nonIeee: 500 },
+            '2': { ieee: 800, nonIeee: 900 },
+            '3': { ieee: 1200, nonIeee: 1350 },
+            '4': { ieee: 1400, nonIeee: 1600 }
+        };
+
+        // Elements
+        const teamSizeSelect = document.getElementById('teamSize');
+        const ieeeMemberRadios = document.querySelectorAll('input[name="ieeeMember"]');
+        const feeDisplay = document.getElementById('feeDisplay');
+        const feeAmount = document.getElementById('feeAmount');
+        const teamLeadSection = document.getElementById('teamLeadSection');
+        const teamMembersContainer = document.getElementById('teamMembersContainer');
+        const ieeeMembershipIdsContainer = document.getElementById('ieeeMembershipIdsContainer');
+        const qrSection = document.getElementById('qrSection');
+        const uploadSection = document.getElementById('uploadSection');
+        const submitSection = document.getElementById('submitSection');
+        const registrationForm = document.getElementById('registrationForm');
+        const successMessage = document.getElementById('successMessage');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const errorMessage = document.getElementById('errorMessage');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // File upload elements
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('paymentScreenshot');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const fileError = document.getElementById('fileError');
+
+        let uploadedFile = null;
+
+        // Update fee display
+        function updateFee() {
+            const teamSize = teamSizeSelect.value;
+            const ieeeMember = document.querySelector('input[name="ieeeMember"]:checked');
+
+            if (teamSize && ieeeMember) {
+                const memberType = ieeeMember.value === 'yes' ? 'ieee' : 'nonIeee';
+                const fee = feeStructure[teamSize][memberType];
+                
+                feeAmount.textContent = `₹${fee}`;
+                feeDisplay.style.display = 'block';
+                teamLeadSection.style.display = 'block';
+                qrSection.style.display = 'block';
+                uploadSection.style.display = 'block';
+                submitSection.style.display = 'block';
+                
+                generateTeamMemberFields(parseInt(teamSize));
+                generateIeeeMembershipIdFields(parseInt(teamSize));
+                showCorrectQRCode(teamSize, memberType);
+            }
+        }
+
+        // Show the correct QR code based on team size and IEEE membership
+        function showCorrectQRCode(teamSize, memberType) {
+            // Hide all QR codes first
+            const allQRCodes = document.querySelectorAll('.qr-code-item');
+            allQRCodes.forEach(qr => qr.style.display = 'none');
+            
+            // Show the correct QR code
+            const correctQR = document.querySelector(`.qr-code-item[data-size="${teamSize}"][data-type="${memberType}"]`);
+            if (correctQR) {
+                correctQR.style.display = 'block';
+            }
+        }
+
+        // Generate team member input fields
+        // Generate team member input fields with sequential names
+function generateTeamMemberFields(teamSize) {
+    teamMembersContainer.innerHTML = '';
+
+    if (teamSize > 1) {
+        const section = document.createElement('div');
+        section.className = 'form-section';
+        section.innerHTML = '<h2 class="section-title">Team Members Information</h2>';
+        
+        for (let i = 2; i <= teamSize; i++) {
+            const memberCard = document.createElement('div');
+            memberCard.className = 'team-member-card';
+            memberCard.innerHTML = `
+                <div class="card-header">👥 Team Member ${i} Details</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="member${i}_name">Full Name <span class="required">*</span></label>
+                        <input type="text" id="member${i}_name" name="member${i}_name" placeholder="Enter full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="member${i}_mobile">Mobile Number <span class="required">*</span></label>
+                        <input type="tel" id="member${i}_mobile" name="member${i}_mobile" placeholder="10-digit mobile" pattern="[0-9]{10}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="member${i}_email">Email ID <span class="required">*</span></label>
+                        <input type="email" id="member${i}_email" name="member${i}_email" placeholder="email@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="member${i}_college">College Name <span class="required">*</span></label>
+                        <input type="text" id="member${i}_college" name="member${i}_college" placeholder="Enter college name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="member${i}_roll">Roll Number <span class="required">*</span></label>
+                        <input type="text" id="member${i}_roll" name="member${i}_roll" placeholder="Enter roll number" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="member${i}_branch">Branch/Department <span class="required">*</span></label>
+                        <input type="text" id="member${i}_branch" name="member${i}_branch" placeholder="E.g., CSE, ECE, EEE" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="member${i}_year">Year <span class="required">*</span></label>
+                        <select id="member${i}_year" name="member${i}_year" required>
+                            <option value="">Select year</option>
+                            <option value="1st Year">1st Year</option>
+                            <option value="2nd Year">2nd Year</option>
+                            <option value="3rd Year">3rd Year</option>
+                            <option value="4th Year">4th Year</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+            section.appendChild(memberCard);
+        }
+        
+        teamMembersContainer.appendChild(section);
+    }
+}
+
+        // File upload handling
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFileSelect(e.target.files[0]);
+        });
+
+        // Drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            handleFileSelect(e.dataTransfer.files[0]);
+        });
+
+        function handleFileSelect(file) {
+            fileError.classList.remove('show');
+            fileInfo.classList.remove('show');
+
+            if (!file) return;
+
+            // Check file type
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+            if (!validTypes.includes(file.type)) {
+                fileError.textContent = '❌ Please upload a JPG or PNG image only.';
+                fileError.classList.add('show');
+                fileInput.value = '';
+                return;
+            }
+
+            // Check file size
+            if (file.size > MAX_FILE_SIZE) {
+                const fileSizeKB = (file.size / 1024).toFixed(2);
+                fileError.textContent = `❌ File size is ${fileSizeKB} KB. Maximum allowed is 100 KB. Please compress your image.`;
+                fileError.classList.add('show');
+                fileInput.value = '';
+                return;
+            }
+
+            // File is valid
+            uploadedFile = file;
+            fileName.textContent = `✅ ${file.name}`;
+            fileSize.textContent = `Size: ${(file.size / 1024).toFixed(2)} KB`;
+            fileInfo.classList.add('show');
+        }
+
+        // Convert file to base64
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Event listeners
+        teamSizeSelect.addEventListener('change', updateFee);
+        ieeeMemberRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                updateFee();
+                toggleIeeeMemberIdField();
+            });
+        });
+
+        // Toggle IEEE Membership ID fields
+        function toggleIeeeMemberIdField() {
+            const teamSize = parseInt(teamSizeSelect.value) || 0;
+            generateIeeeMembershipIdFields(teamSize);
+        }
+
+        // Generate IEEE Membership ID fields for all team members
+        function generateIeeeMembershipIdFields(teamSize) {
+            const ieeeMember = document.querySelector('input[name="ieeeMember"]:checked');
+            
+            // Only generate if IEEE member is selected and team size is valid
+            if (!ieeeMember || ieeeMember.value !== 'yes' || !teamSize || teamSize < 1) {
+                ieeeMembershipIdsContainer.style.display = 'none';
+                ieeeMembershipIdsContainer.innerHTML = '';
+                return;
+            }
+
+            ieeeMembershipIdsContainer.innerHTML = '';
+            
+            if (teamSize >= 1) {
+                const section = document.createElement('div');
+                section.className = 'form-section';
+                section.innerHTML = '<h2 class="section-title">IEEE Membership IDs</h2>';
+                
+                const card = document.createElement('div');
+                card.className = 'team-member-card';
+                card.innerHTML = `
+                    <div class="card-header">🎫 IEEE Membership IDs for All Team Members</div>
+                    <div class="form-grid">
+                `;
+                
+                // Add IEEE ID field for Team Lead
+                card.innerHTML += `
+                    <div class="form-group">
+                        <label for="lead_ieee_id">Team Lead IEEE ID <span class="required">*</span></label>
+                        <input type="text" id="lead_ieee_id" name="lead_ieee_id" placeholder="Enter IEEE Membership ID" required>
+                    </div>
+                `;
+                
+                // Add IEEE ID fields for other team members
+                for (let i = 2; i <= teamSize; i++) {
+                    card.innerHTML += `
+                        <div class="form-group">
+                            <label for="member${i}_ieee_id">Member ${i} IEEE ID <span class="required">*</span></label>
+                            <input type="text" id="member${i}_ieee_id" name="member${i}_ieee_id" placeholder="Enter IEEE Membership ID" required>
+                        </div>
+                    `;
+                }
+                
+                card.innerHTML += '</div>'; // Close form-grid
+                section.appendChild(card);
+                ieeeMembershipIdsContainer.appendChild(section);
+                ieeeMembershipIdsContainer.style.display = 'block';
+            }
+        }
+
+        // Form submission
+        registrationForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+        
+            
+
+            // Check if file is uploaded
+            if (!uploadedFile) {
+                errorMessage.textContent = '⚠️ Please upload the payment screenshot before submitting.';
+                errorMessage.classList.add('show');
+                return;
+            }
+
+            // Show loading
+            loadingOverlay.classList.add('show');
+            submitBtn.disabled = true;
+            errorMessage.classList.remove('show');
+            
+            try {
+                // Convert file to base64
+                const base64File = await fileToBase64(uploadedFile);
+                
+                // Collect form data
+                const formData = new FormData(registrationForm);
+                const data = {
+                    timestamp: new Date().toISOString(),
+                    paymentScreenshot: {
+                        name: uploadedFile.name,
+                        size: uploadedFile.size,
+                        type: uploadedFile.type,
+                        data: base64File
+                    }
+                };
+                
+                for (let [key, value] of formData.entries()) {
+                    if (key !== 'paymentScreenshot') {
+                        data[key] = value;
+                    }
+                }
+                
+                // Send to Google Sheets
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                // Note: Due to no-cors mode, we can't read the response
+                // But if no error is thrown, we can assume success
+                
+                // Hide loading
+                loadingOverlay.classList.remove('show');
+                
+                // Hide form and show success message
+                registrationForm.style.display = 'none';
+                successMessage.classList.add('show');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                loadingOverlay.classList.remove('show');
+                submitBtn.disabled = false;
+                errorMessage.textContent = '⚠️ An error occurred while submitting. Please try again or contact support.';
+                errorMessage.classList.add('show');
+            }
+        });
+
+        // Initialize
+        window.addEventListener('load', createStars);
+    </script>
+</body>
+</html>

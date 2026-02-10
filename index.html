@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TKR Hack Conquest 2.0 | National Level Hackathon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0e1f;
+            --bg-darker: #05070f;
+            --primary: #00c4e0;       /* soft cyan-teal */
+            --secondary: #4fd1c5;     /* mint-teal accent */
+            --accent: #a5f3fc;        /* very light cyan */
+            --text: #f1f5f9;
+            --text-muted: #cbd5e1;
+            --card-bg: rgba(15, 23, 42, 0.65);
+            --border: rgba(0, 196, 224, 0.18);
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--bg-darker) url('./blackhatcoder.jpg') center/cover no-repeat fixed;
+            color: var(--text);
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(10, 14, 31, 0.694), rgba(5, 7, 15, 0.826));
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .stars-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: rgb(28, 169, 197);
+            border-radius: 50%;
+            animation: twinkle 2s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            padding: 1.8rem 0;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(12px);
+            background: rgba(10, 14, 31, 0.82);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .college-name {
+            color: var(--primary);
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin-bottom: 1.2rem;
+        }
+
+        .event-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+            margin-bottom: 0.6rem;
+        }
+
+        .version {
+            font-size: 5rem;
+        }
+
+        .tagline {
+            font-size: 1.6rem;
+            color: var(--secondary);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .event-date {
+            font-size: 2.4rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .event-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 3rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.4rem;
+            font-size: 1.15rem;
+            font-weight: 700;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #0a0e1f;
+            box-shadow: 0 8px 32px rgba(0, 196, 224, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 196, 224, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: #0a0e1f;
+        }
+
+        /* Sections */
+        .info-section, .highlights, .contact-section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .info-grid, .highlights-grid, .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-card, .contact-card, .highlight-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.4rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.35s ease;
+        }
+
+        .info-card:hover, .contact-card:hover, .highlight-item:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 16px 48px rgba(0, 196, 224, 0.18);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card-title, .contact-name {
+            color: var(--primary);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-content {
+            font-size: 1.1rem;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        table th, table td {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        table th {
+            background: rgba(0, 196, 224, 0.15);
+            color: var(--primary);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        table td {
+            color: var(--accent);
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Countdown */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: rgba(0, 196, 224, 0.12);
+            border: 2px solid rgba(0, 196, 224, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            min-width: 120px;
+            text-align: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .countdown-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--primary);
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Contact email */
+        .contact-email {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: rgba(0, 196, 224, 0.1);
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .contact-email a {
+            color: var(--primary);
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-dark);
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Floating robot */
+        .floating-robot {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            font-size: 4rem;
+            cursor: pointer;
+            animation: float 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(0, 196, 224, 0.4));
+            z-index: 1000;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating-robot:hover {
+            transform: scale(1.15);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .event-title { font-size: 3.2rem; }
+            .version { font-size: 3.8rem; }
+            .event-date { font-size: 1.9rem; }
+            .nav-links { display: none; }
+            .info-grid, .highlights-grid, .contact-grid { grid-template-columns: 1fr; }
+            .floating-robot { font-size: 3rem; bottom: 1.5rem; right: 1.5rem; }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .ieee_logo { border-radius: 50%; }
+        .tkr_logo  { border-radius: 50%; height: 5em; }
+    </style>
+</head>
+<body>
+
+    <div class="stars-bg" id="starsContainer"></div>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div><img src="./ieee_logo.jpeg" alt="ieee_logo" height="120em" class="ieee_logo"></div>
+                    <div class="logo-text">TKR HACK CONQUEST</div>
+                </div>
+                <nav>
+                    <ul class="nav-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#highlights">Highlights</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div><img src="./tkr_logo.jpeg" alt="tkr_logo" class="tkr_logo"></div>
+                <div class="college-name">TKR COLLEGE OF ENGINEERING AND TECHNOLOGY</div>
+                <div class="college-name" style="margin-bottom: 2rem;">AUTONOMOUS</div>
+                <h1 class="event-title">
+                    TKR HACK<br>
+                    CONQUEST <span class="version">2.0</span>
+                </h1>
+                <p class="tagline">Where Innovation Ignites Ideas Take Flight</p>
+                <div class="event-date">27-28 FEBRUARY 2026</div>
+                <p class="event-subtitle">A 24-Hour Hackathon Journey to Innovation</p>
+
+                <div class="countdown">
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="days">00</span>
+                        <span class="countdown-label">Days</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="hours">00</span>
+                        <span class="countdown-label">Hours</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="minutes">00</span>
+                        <span class="countdown-label">Minutes</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="seconds">00</span>
+                        <span class="countdown-label">Seconds</span>
+                    </div>
+                </div>
+
+                <div class="cta-buttons">
+                    <a href="./form.html" class="btn btn-primary">Register Now</a>
+                    <a href="./learn_more.html" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="info-section" id="about">
+        <div class="container">
+            <h2 class="section-title fade-in">Event Details</h2>
+            <div class="info-grid">
+                <div class="info-card fade-in">
+                    <span class="card-icon">🎯</span>
+                    <h3 class="card-title">National Level Event</h3>
+                    <p class="card-content">
+                        All branches of engineering in collaboration with IEEE Student Branch, TKRCET organize this prestigious national level hackathon event.
+                    </p>
+                </div>
+
+                <div class="info-card fade-in">
+                    <span class="card-icon">👥</span>
+                    <h3 class="card-title">Team Size</h3>
+                    <p class="card-content">
+                        min : 1 and Max : 4<br>
+                        Registration fee is Adjusted according to the team size
+                        and IEEE membership
+                    </p>
+                </div>
+
+                <div class="info-card fade-in">
+                    <span class="card-icon">🍕 🥂</span>
+                    <h3 class="card-title">Food and Refreshments</h3>
+                    <p class="card-content">
+                        Food and Refreshments will be provided during Hackathon
+                    </p>
+                </div>
+
+                <div class="info-card fade-in" style="grid-column: span 2;">
+                    <span class="card-icon">💰</span>
+                    <h3 class="card-title">Registration Fee</h3>
+                    <div class="card-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>IEEE Members</th>
+                                    <th>Non-IEEE Members</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Individual</td><td>₹450</td><td>₹500</td></tr>
+                                <tr><td>Team of 2</td><td>₹800</td><td>₹900</td></tr>
+                                <tr><td>Team of 3</td><td>₹1200</td><td>₹1350</td></tr>
+                                <tr><td>Team of 4</td><td>₹1400</td><td>₹1600</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="info-card fade-in">
+                    <span class="card-icon">⏰</span>
+                    <h3 class="card-title">Duration</h3>
+                    <p class="card-content">
+                        24-hour hackathon<br>
+                        27-28 February 2026<br>
+                        Non-stop innovation journey
+                    </p>
+                </div>
+
+                <div class="info-card fade-in">
+                    <span class="card-icon">🔥</span>
+                    <h3 class="card-title">Problem Domains</h3>
+                    <p class="card-content">
+                        Domains will be disclosed 2 days prior to the event.<br>
+                        Stay tuned for updates!
+                    </p>
+                </div>
+
+                <div class="info-card fade-in">
+                    <span class="card-icon">🏆</span>
+                    <h3 class="card-title">What You'll Win</h3>
+                    <p class="card-content">
+                        Exciting cash prizes<br>
+                        Internship opportunities<br>
+                        And many more surprises!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="highlights" id="highlights">
+        <div class="container">
+            <h2 class="section-title fade-in">Why Participate?</h2>
+            <div class="highlights-grid">
+                <div class="highlight-item fade-in">
+                    <div class="highlight-icon">💡</div>
+                    <div class="highlight-text">Innovation Challenge</div>
+                </div>
+                <div class="highlight-item fade-in">
+                    <div class="highlight-icon">🤝</div>
+                    <div class="highlight-text">Network with Peers</div>
+                </div>
+                <div class="highlight-item fade-in">
+                    <div class="highlight-icon">🎓</div>
+                    <div class="highlight-text">Learn & Grow</div>
+                </div>
+                <div class="highlight-item fade-in">
+                    <div class="highlight-icon">🚀</div>
+                    <div class="highlight-text">Launch Your Ideas</div>
+                </div>
+                <div class="highlight-item fade-in">
+                    <div class="highlight-icon">🍕</div>
+                    <div class="highlight-text">Free Food & Fun</div>
+                </div>
+                <div class="highlight-item fade-in">
+                    <div class="highlight-icon">📜</div>
+                    <div class="highlight-text">Certificates</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2 class="section-title fade-in">Contact Us</h2>
+            <div class="contact-grid">
+                <div class="contact-card fade-in">
+                    <div class="contact-name">Medha Banda</div>
+                    <div class="contact-number">📞 9515923172</div>
+                </div>
+                <div class="contact-card fade-in">
+                    <div class="contact-name">Pravalika Yalala</div>
+                    <div class="contact-number">📞 8919732425</div>
+                </div>
+                <div class="contact-card fade-in">
+                    <div class="contact-name">Praneeth Reddy</div>
+                    <div class="contact-number">📞 8885461624</div>
+                </div>
+            </div>
+            <div class="contact-email fade-in">
+                <a href="mailto:tkr.hackconquest@gmail.com">✉️ tkr.hackconquest@gmail.com</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <h3 style="font-family: 'Orbitron', sans-serif; color: var(--primary); margin-bottom: 1rem;">
+                    TKR Hack Conquest 2.0
+                </h3>
+                <p>Organized by IEEE Student Branch, TKRCET</p>
+            </div>
+            <p style="margin-top: 2rem; opacity: 0.7;">
+                © 2026 TKR College of Engineering and Technology. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <div class="floating-robot" title="Let's hack the future!">🤖</div>
+
+    <script>
+        // Stars
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            const numberOfStars = 100;
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 2.5 + 0.5;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(star);
+            }
+        }
+
+        // Scroll animations
+        function handleScrollAnimations() {
+            const elements = document.querySelectorAll('.fade-in');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            elements.forEach(el => observer.observe(el));
+        }
+
+        // Countdown
+        function updateCountdown() {
+            const eventDate = new Date('2026-02-27T00:00:00').getTime();
+            const timer = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = eventDate - now;
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+
+                if (distance < 0) {
+                    clearInterval(timer);
+                    document.querySelector('.countdown').innerHTML = 
+                        '<h2 style="color: var(--primary); font-family: Orbitron;">Event Live! 🚀</h2>';
+                }
+            }, 1000);
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Robot interaction
+        document.querySelector('.floating-robot').addEventListener('click', () => {
+            alert('Ready to build something legendary? 🚀 Register now!');
+        });
+
+        // Init
+        window.addEventListener('load', () => {
+            createStars();
+            handleScrollAnimations();
+            updateCountdown();
+        });
+    </script>
+</body>
+</html>

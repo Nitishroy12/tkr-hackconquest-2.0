@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About TKR Hack Conquest 2.0 | Learn More</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d4ff;
+            --secondary: #6366f1;
+            --accent: #f59e0b;
+            --dark: #0a0e27;
+            --darker: #050614;
+            --text: #e0e7ff;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--darker);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .stars-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 14, 39, 0.8);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            z-index: 100;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 4rem 0;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .hero-content {
+            animation: fadeInUp 1s ease-out;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(50px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        .page-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00d4ff, #6366f1, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 4rem 0;
+            position: relative;
+        }
+
+        .content-card {
+            background: rgba(10, 14, 39, 0.6);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .content-card h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .intro-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .intro-text strong {
+            color: var(--accent);
+        }
+
+        /* Why Participate Section */
+        .why-participate {
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+        }
+
+        .why-participate h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .benefit-card {
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .benefit-card:hover::before {
+            opacity: 1;
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .benefit-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .benefit-description {
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Tagline Section */
+        .tagline-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(99, 102, 241, 0.1));
+            border-radius: 20px;
+            margin: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tagline-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .tagline {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent), var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 2;
+            letter-spacing: 3px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .cta-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.6);
+        }
+
+        .cta-button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            padding: 3rem 0 1.5rem;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            text-align: center;
+        }
+
+        .footer-content h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        /* Floating Robot */
+        .floating-robot {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            font-size: 3rem;
+            cursor: pointer;
+            animation: float 3s ease-in-out infinite;
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .floating-robot:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Fade-in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+            }
+
+            .content-card {
+                padding: 2rem;
+            }
+
+            .content-card h2,
+            .why-participate h2 {
+                font-size: 2rem;
+            }
+
+            .intro-text {
+                font-size: 1.1rem;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .tagline {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .logo-text {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Stars Background -->
+    <div class="stars-bg" id="starsContainer"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-text">TKR HACK CONQUEST 2.0</div>
+                </div>
+                <nav>
+                    <ul class="nav-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#benefits">Benefits</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="page-title">About the Event</h1>
+                <p class="page-subtitle">Discover TKR HACK CONQUEST 2.0</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section class="content-section" id="about">
+        <div class="container">
+            <div class="content-card fade-in">
+                <h2>What is TKR HACK CONQUEST 2.0?</h2>
+                <p class="intro-text">
+                    <strong>TKR HACK CONQUEST 2.0</strong> is a <strong>24-Hour National Level Hackathon</strong> organized by the <strong>IEEE Student Branch, TKR College of Engineering & Technology, Hyderabad</strong>, designed to bring together passionate innovators from across the country to solve real-world problems using technology.
+                </p>
+                <p class="intro-text">
+                    Participants will work in teams through an intense 24-hour innovation sprint, guided by experienced mentors and evaluated by an expert jury. The event focuses on hands-on learning, creativity, teamwork, and practical problem-solving, while encouraging students to think beyond conventional boundaries.
+                </p>
+                <p class="intro-text">
+                    TKR HACK CONQUEST 2.0 is more than just a competition—it's an <strong>innovation ecosystem</strong> that empowers young minds to transform ideas into reality.
+                </p>
+            </div>
+
+            <!-- Why Participate Section -->
+            <div class="why-participate fade-in" id="benefits">
+                <h2>Why Participate?</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <span class="benefit-icon">🌟</span>
+                        <h3 class="benefit-title">National-Level Exposure</h3>
+                        <p class="benefit-description">
+                            Gain recognition and showcase your skills on a national platform with participants from top institutions across India.
+                        </p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <span class="benefit-icon">⚡</span>
+                        <h3 class="benefit-title">24 Hours of Innovation</h3>
+                        <p class="benefit-description">
+                            Experience the thrill of continuous innovation as you build, test, and refine your solution in an intense 24-hour sprint.
+                        </p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <span class="benefit-icon">👨‍🏫</span>
+                        <h3 class="benefit-title">Expert Mentorship</h3>
+                        <p class="benefit-description">
+                            Learn from experienced mentors and industry professionals who will guide you throughout your innovation journey.
+                        </p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <span class="benefit-icon">💡</span>
+                        <h3 class="benefit-title">Real-World Solutions</h3>
+                        <p class="benefit-description">
+                            Build solutions that address actual problems and make a tangible impact in the world around you.
+                        </p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <span class="benefit-icon">🏅</span>
+                        <h3 class="benefit-title">IEEE Certificates & Prizes</h3>
+                        <p class="benefit-description">
+                            Receive IEEE-recognized certificates and compete for exciting prizes that recognize your hard work.
+                        </p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <span class="benefit-icon">🤝</span>
+                        <h3 class="benefit-title">Network & Collaborate</h3>
+                        <p class="benefit-description">
+                            Connect with like-minded peers, industry professionals, and potential collaborators for future projects.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tagline Section -->
+            <div class="tagline-section fade-in">
+                <h2 class="tagline">🚀 Code. Create. Conquer.</h2>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="cta-section fade-in">
+                <a href="./form.html" class="cta-button">
+                    <span>Register Now</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <h3>TKR Hack Conquest 2.0</h3>
+                <p>Organized by IEEE Student Branch, TKRCET</p>
+                <p style="margin-top: 1.5rem; opacity: 0.6;">
+                    © 2026 TKR College of Engineering and Technology. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Robot -->
+    <div class="floating-robot" title="Ready to innovate!">🤖</div>
+
+    <script>
+        // Generate animated stars
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            const numberOfStars = 150;
+
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                const size = Math.random() * 3;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                
+                container.appendChild(star);
+            }
+        }
+
+        // Scroll animations
+        function handleScrollAnimations() {
+            const elements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            elements.forEach(el => observer.observe(el));
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Robot click interaction
+        document.querySelector('.floating-robot').addEventListener('click', () => {
+            alert('🤖 Ready to hack the future? Join TKR HACK CONQUEST 2.0 and transform your ideas into reality!');
+        });
+
+        // Initialize everything when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            handleScrollAnimations();
+        });
+    </script>
+</body>
+</html>
