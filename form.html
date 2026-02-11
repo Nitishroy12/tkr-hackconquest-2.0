@@ -297,7 +297,7 @@
         }
 
         .qr-placeholder {
-            width: 250px;
+            width: 400px;
             height: 250px;
             margin: 0 auto 1rem;
             border: 2px solid rgba(0, 212, 255, 0.3);
@@ -306,7 +306,9 @@
             align-items: center;
             justify-content: center;
             background: rgba(10, 14, 39, 0.4);
-            font-size: 3rem;
+            font-size: 1rem;
+            font-weight: bold;
+            word-wrap: break-word;
         }
 
         .qr-title {
@@ -319,6 +321,7 @@
         .qr-instruction {
             color: var(--text);
             font-size: 0.95rem;
+            text-align: left;
         }
 
         /* File Upload Section */
@@ -681,7 +684,7 @@
 
                 <!-- QR Code Section -->
                 <div class="qr-section" id="qrSection">
-                    <h2 class="qr-title">💳 Payment QR Code</h2>
+                    <h2 class="qr-title">💳 Payment Section</h2>
                     
                     <!-- QR Code will be shown based on team size and IEEE membership -->
                     <div id="qrCodeDisplay">
@@ -689,7 +692,10 @@
                         <div class="qr-code-item" data-size="1" data-type="ieee" style="display: none;">
                             <p class="qr-label">1 Member - IEEE Member</p>
                             <div class="qr-placeholder">
-                                <span>📱 QR Code 1</span>
+                                <span>
+                                Acc no: 0696053000004324 <br>
+                                IFSC Code: SIBL0000696 <br>
+                                Account Holder Name: IEEE Student Branch TKRCET</span>
                             </div>
                             <p class="qr-amount">Amount: ₹450</p>
                         </div>
@@ -698,7 +704,10 @@
                         <div class="qr-code-item" data-size="1" data-type="nonIeee" style="display: none;">
                             <p class="qr-label">1 Member - Non-IEEE Member</p>
                             <div class="qr-placeholder">
-                                <img src="./QR/qrcode.jpeg" alt="" height="100%">
+                                <span>
+                                Acc no: 0696053000004324 <br>
+                                IFSC Code: SIBL0000696 <br>
+                                Account Holder Name: IEEE Student Branch TKRCET</span>
                                 
                             </div>
                             <p class="qr-amount">Amount: ₹500</p>
@@ -708,7 +717,10 @@
                         <div class="qr-code-item" data-size="2" data-type="ieee" style="display: none;">
                             <p class="qr-label">2 Members - IEEE Member</p>
                             <div class="qr-placeholder">
-                                <img src="./QR/qrcode1.jpeg" alt="" height="100%">
+                                <span>
+                                Acc no: 0696053000004324 <br>
+                                IFSC Code: SIBL0000696 <br>
+                                Account Holder Name: IEEE Student Branch TKRCET</span>
                             </div>
                             <p class="qr-amount">Amount: ₹800</p>
                         </div>
@@ -717,7 +729,10 @@
                         <div class="qr-code-item" data-size="2" data-type="nonIeee" style="display: none;">
                             <p class="qr-label">2 Members - Non-IEEE Member</p>
                             <div class="qr-placeholder">
-                                <span>📱 QR Code 4</span>
+                                <span>
+                                Acc no: 0696053000004324 <br>
+                                IFSC Code: SIBL0000696 <br>
+                                Account Holder Name: IEEE Student Branch TKRCET</span>
                             </div>
                             <p class="qr-amount">Amount: ₹900</p>
                         </div>
@@ -726,7 +741,10 @@
                         <div class="qr-code-item" data-size="3" data-type="ieee" style="display: none;">
                             <p class="qr-label">3 Members - IEEE Member</p>
                             <div class="qr-placeholder">
-                                <span>📱 QR Code 5</span>
+                                <span>
+                                Acc no: 0696053000004324 <br>
+                                IFSC Code: SIBL0000696 <br>
+                                Account Holder Name: IEEE Student Branch TKRCET</span>
                             </div>
                             <p class="qr-amount">Amount: ₹1200</p>
                         </div>
@@ -735,7 +753,10 @@
                         <div class="qr-code-item" data-size="3" data-type="nonIeee" style="display: none;">
                             <p class="qr-label">3 Members - Non-IEEE Member</p>
                             <div class="qr-placeholder">
-                                <span>📱 QR Code 6</span>
+                                <span>
+                                Acc no: 0696053000004324 <br>
+                                IFSC Code: SIBL0000696 <br>
+                                Account Holder Name: IEEE Student Branch TKRCET</span>
                             </div>
                             <p class="qr-amount">Amount: ₹1350</p>
                         </div>
@@ -744,7 +765,10 @@
                         <div class="qr-code-item" data-size="4" data-type="ieee" style="display: none;">
                             <p class="qr-label">4 Members - IEEE Member</p>
                             <div class="qr-placeholder">
-                                <span>📱 QR Code 7</span>
+                                <span>
+                                Acc no: 0696053000004324 <br>
+                                IFSC Code: SIBL0000696 <br>
+                                Account Holder Name: IEEE Student Branch TKRCET</span>
                             </div>
                             <p class="qr-amount">Amount: ₹1400</p>
                         </div>
@@ -753,14 +777,23 @@
                         <div class="qr-code-item" data-size="4" data-type="nonIeee" style="display: none;">
                             <p class="qr-label">4 Members - Non-IEEE Member</p>
                             <div class="qr-placeholder">
-                                <span>📱 QR Code 8</span>
+                                <span>
+                                Acc no: 0696053000004324 <br>
+                                IFSC Code: SIBL0000696 <br>
+                                Account Holder Name: IEEE Student Branch TKRCET</span>
                             </div>
                             <p class="qr-amount">Amount: ₹1600</p>
                         </div>
                     </div>
 
-                    <p class="qr-instruction" style="margin-top: 1rem;">Scan the QR code above to make payment</p>
-                    <p class="qr-instruction" style="margin-top: 0.5rem; color: var(--accent);">
+                    <ul class="qr-instruction" style="margin-top: 1rem;">
+                    <li>Open your UPI app</li>
+                    <li>Go to Bank transfer</li>
+                    <li>Enter the given bank account details metioned above</li>
+                    <li> Pay through Phonepay/Gpay/Paytm only. no other UPI interface </li>
+                    <li>Email will be recived only after payment confirmation.</li></ul>
+                    <p class="qr-instruction1" style="margin-top: 0.5rem; color: var(--accent);" style="text-align: center;">
+                        Pay the amount correctly that is disclosed above <br>
                         After payment, upload the screenshot below
                     </p>
                 </div>
@@ -771,7 +804,8 @@
                     
                     <div class="upload-area" id="uploadArea">
                         <div class="upload-icon">📸</div>
-                        <div class="upload-text">Click to upload or drag and drop</div>
+                        <div class="upload-text">Click to upload or drag and drop <br> 
+                                                Make sure that payment transaction id is visible in the screenshot  </div>
                         <div class="upload-hint">Payment screenshot (Max 100 KB, JPG/PNG)</div>
                         <input type="file" id="paymentScreenshot" name="paymentScreenshot" class="file-input" accept="image/jpeg,image/jpg,image/png" required>
                     </div>
