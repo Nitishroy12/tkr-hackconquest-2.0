@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domains | TKR Hack Conquest 2.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0e1f;
+            --bg-darker: #05070f;
+            --primary: #00c4e0;
+            --secondary: #4fd1c5;
+            --accent: #a5f3fc;
+            --text: #f1f5f9;
+            --text-muted: #cbd5e1;
+            --card-bg: rgba(15, 23, 42, 0.65);
+            --border: rgba(0, 196, 224, 0.18);
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--bg-darker) url('./blackhatcoder.jpg') center/cover no-repeat fixed;
+            color: var(--text);
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(10, 14, 31, 0.694), rgba(5, 7, 15, 0.826));
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .stars-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: rgb(28, 169, 197);
+            border-radius: 50%;
+            animation: twinkle 2s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            padding: 1.8rem 0;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(12px);
+            background: rgba(10, 14, 31, 0.82);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            text-align: center;
+            margin: 5rem 0 4rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .domains-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 2.2rem;
+            margin-bottom: 6rem;
+        }
+
+        .domain-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .domain-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(0,196,224,0.15), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.6s;
+            pointer-events: none;
+        }
+
+        .domain-card:hover {
+            transform: translateY(-12px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(0, 196, 224, 0.22);
+        }
+
+        .domain-card:hover::before {
+            opacity: 1;
+        }
+
+        .domain-icon {
+            font-size: 3.8rem;
+            margin-bottom: 1.4rem;
+            display: block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .domain-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: var(--accent);
+            margin-bottom: 1.2rem;
+        }
+
+        .domain-desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        .subthemes {
+            margin-top: 1.8rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .subthemes h4 {
+            color: var(--secondary);
+            font-size: 1.15rem;
+            margin-bottom: 0.9rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .subtheme-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .subtheme-tag {
+            background: rgba(0, 196, 224, 0.12);
+            border: 1px solid rgba(0, 196, 224, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            color: var(--accent);
+        }
+
+        footer {
+            background: var(--bg-dark);
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            margin-top: 6rem;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin: 4rem auto 2rem;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #0a0e1f;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 196, 224, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .section-title { font-size: 2.8rem; }
+            .domains-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars-bg" id="starsContainer"></div>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-text">TKR HACK CONQUEST</div>
+                </div>
+                <nav>
+                    <ul class="nav-links">
+                        <li><a href="index.html#home">Home</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="./domains.html">Domains</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="main-content">
+        <div class="container">
+            <h1 class="section-title">Hackathon Domains</h1>
+            <p class="subtitle">
+                Choose your battlefield — build something groundbreaking in one of these high-impact domains.
+            </p>
+
+            <div class="domains-grid">
+
+                <div class="domain-card">
+                    <span class="domain-icon">🧠</span>
+                    <h2 class="domain-title">Artificial Intelligence (AI/ML)</h2>
+                    <p class="domain-desc">
+                        AI-integrated applications, intelligent virtual assistants, NLP-powered tools, automated Robotic Process Automation (RPA) bots, generative AI experiences, and more.
+                    </p>
+                </div>
+
+                <div class="domain-card">
+                    <span class="domain-icon">🌱</span>
+                    <h2 class="domain-title">Sustainability & Clean Tech</h2>
+                    <p class="domain-desc">
+                        Renewable energy solutions, smart waste management systems, personal & corporate carbon trackers, eco-friendly innovations, circular economy tools.
+                    </p>
+                </div>
+
+                <div class="domain-card">
+                    <span class="domain-icon">💸</span>
+                    <h2 class="domain-title">Fintech & Blockchain</h2>
+                    <p class="domain-desc">
+                        Decentralized finance (DeFi), cryptocurrency tools, secure payment systems, transparent financial platforms, blockchain-based identity & asset tracking.
+                    </p>
+                </div>
+
+                <div class="domain-card">
+                    <span class="domain-icon">🩺</span>
+                    <h2 class="domain-title">Healthtech & BioTech</h2>
+                    <p class="domain-desc">
+                        AI-powered diagnostic assistants, remote patient monitoring, health data analytics platforms, wearable health tech, telemedicine innovations.
+                    </p>
+                </div>
+
+                <div class="domain-card">
+                    <span class="domain-icon">🏙️</span>
+                    <h2 class="domain-title">Smart Cities & Infrastructure</h2>
+                    <p class="domain-desc">
+                        IoT-based traffic optimization, smart home automation, energy-efficient public infrastructure, urban welfare & safety solutions.
+                    </p>
+                </div>
+
+                <div class="domain-card">
+                    <span class="domain-icon">📚</span>
+                    <h2 class="domain-title">EdTech & Social Impact</h2>
+                    <p class="domain-desc">
+                        Personalized adaptive learning tools, accessibility technology, inclusive education platforms, community empowerment & social good solutions.
+                    </p>
+                </div>
+
+                <div class="domain-card">
+                    <span class="domain-icon">🌾</span>
+                    <h2 class="domain-title">AgriTech & Rural Development</h2>
+                    <p class="domain-desc">
+                        Precision farming, AI crop monitoring & disease detection, smart irrigation, supply chain solutions for farmers, rural connectivity innovations.
+                    </p>
+                </div>
+
+                <div class="domain-card">
+                    <span class="domain-icon">🛡️</span>
+                    <h2 class="domain-title">Cybersecurity & Defense</h2>
+                    <p class="domain-desc">
+                        Advanced threat detection, data privacy tools, secure communication platforms, drone/robotics applications in surveillance, naval & border security.
+                    </p>
+                </div>
+
+            </div>
+
+            <h2 class="section-title" style="font-size: 2.8rem; margin: 7rem 0 3rem;">Common Sub-themes & Special Tracks</h2>
+
+            <div class="domains-grid" style="margin-bottom: 8rem;">
+                <div class="domain-card">
+                    <span class="domain-icon">🌐</span>
+                    <h2 class="domain-title">Open Innovation</h2>
+                    <p class="domain-desc">No restrictions — bring your wildest, most creative ideas to life.</p>
+                </div>
+
+                <div class="domain-card">
+                    <span class="domain-icon">👩‍👧</span>
+                    <h2 class="domain-title">Women & Child Safety</h2>
+                    <p class="domain-desc">Focused applications enhancing public safety, emergency response & protection for women and children.</p>
+                </div>
+
+                <div class="domain-card">
+                    <span class="domain-icon">🎮</span>
+                    <h2 class="domain-title">Gaming & Entertainment</h2>
+                    <p class="domain-desc">Gamification, culturally relevant games, interactive entertainment experiences, AR/VR concepts.</p>
+                </div>
+
+                <div class="domain-card">
+                    <span class="domain-icon">🗺️</span>
+                    <h2 class="domain-title">Tourism</h2>
+                    <p class="domain-desc">Tech solutions improving travel experience, local discovery, sustainable tourism, hospitality innovation.</p>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <a href="index.html" class="back-btn">← Back to Home</a>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <h3 style="font-family: 'Orbitron', sans-serif; color: var(--primary); margin-bottom: 1rem;">
+                TKR Hack Conquest 2.0
+            </h3>
+            <p>Organized by IEEE Student Branch, TKRCET</p>
+            <p style="margin-top: 2rem; opacity: 0.7;">
+                © 2026 TKR College of Engineering and Technology. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Stars background (same as index.html)
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            const numberOfStars = 100;
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 2.5 + 0.5;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(star);
+            }
+        }
+
+        window.addEventListener('load', () => {
+            createStars();
+        });
+    </script>
+
+</body>
+</html>
