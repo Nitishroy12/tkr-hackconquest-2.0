@@ -285,7 +285,48 @@
             color: var(--success);
         }
 
-        /* QR Code Section */
+        .coupon-section {
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px dashed var(--accent);
+            border-radius: 12px;
+            padding: 1.8rem;
+            margin: 2rem 0;
+        }
+
+        .coupon-input-group {
+            display: flex;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 1rem auto 0;
+        }
+
+        .coupon-input-group input {
+            flex: 1;
+        }
+
+        .coupon-input-group button {
+            padding: 0 1.5rem;
+            background: var(--accent);
+            color: var(--darker);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .coupon-message {
+            margin-top: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .coupon-message.success {
+            color: var(--success);
+        }
+
+        .coupon-message.error {
+            color: var(--error);
+        }
+
         .qr-section {
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(99, 102, 241, 0.1));
             border: 2px dashed var(--accent);
@@ -324,7 +365,6 @@
             text-align: left;
         }
 
-        /* File Upload Section */
         .file-upload-section {
             background: rgba(10, 14, 39, 0.4);
             border: 2px solid rgba(0, 212, 255, 0.3);
@@ -565,6 +605,14 @@
                 width: 200px;
                 height: 200px;
             }
+
+            .coupon-input-group {
+                flex-direction: column;
+            }
+
+            .coupon-input-group button {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
@@ -614,8 +662,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
 
@@ -626,7 +672,7 @@
                 </div>
 
                 <!-- Team Lead Information -->
-                <div class="form-section" id="teamLeadSection" >
+                <div class="form-section" id="teamLeadSection">
                     <h2 class="section-title">Team Lead Information</h2>
                     
                     <div class="team-member-card">
@@ -682,96 +728,108 @@
                 <!-- IEEE Membership IDs Section -->
                 <div id="ieeeMembershipIdsContainer" style="display: none;"></div>
 
+                <!-- Coupon Code Section -->
+                <div class="coupon-section" id="couponSection" style="display: none;">
+                    <h2 class="section-title">Have a Coupon Code?</h2>
+                    <p style="text-align: center; margin-bottom: 1rem;">Enter your coupon code</p>
+                    
+                    <div class="coupon-input-group">
+                        <input type="text" id="couponCode" placeholder="Enter coupon code here" autocomplete="off">
+                        <button type="button" id="applyCouponBtn">Apply</button>
+                    </div>
+                    
+                    <div class="coupon-message" id="couponMessage"></div>
+                </div>
 
                 <!-- QR Code Section -->
                 <div class="qr-section" id="qrSection">
                     <h2 class="qr-title">💳 Payment Section</h2>
                     
-                    <!-- QR Code will be shown based on team size and IEEE membership -->
                     <div id="qrCodeDisplay">
-                        <!-- 1 Member IEEE -->
-                        <div class="qr-code-item" data-size="1" data-type="ieee" style="display: none;">
+                        <!-- Original prices -->
+                        <div class="qr-code-item" data-size="1" data-type="ieee" data-discounted="false" style="display: none;">
                             <p class="qr-label">1 Member - IEEE Member</p>
                             <div class="qr-placeholder">
-                                    <img src="./QR/qr_450.png" alt="ieee_qr" height="100%">
-                        
+                                <img src="./QR/qr_450.png" alt="QR" height="100%">
                             </div>
                             <p class="qr-amount">Amount: ₹450</p>
                         </div>
 
-                        <!-- 1 Member Non-IEEE -->
-                        <div class="qr-code-item" data-size="1" data-type="nonIeee" style="display: none;">
-                            <p class="qr-label">1 Member - Non-IEEE Member</p>
+                        <div class="qr-code-item" data-size="1" data-type="nonIeee" data-discounted="false" style="display: none;">
+                            <p class="qr-label">1 Member - Non-IEEE</p>
                             <div class="qr-placeholder">
-                                <img src="./QR/qr_500.png" alt="ieee_qr" height="100%">
-                                
+                                <img src="./QR/qr_500.png" alt="QR" height="100%">
                             </div>
                             <p class="qr-amount">Amount: ₹500</p>
                         </div>
 
-                        <!-- 2 Members IEEE -->
-                        <div class="qr-code-item" data-size="2" data-type="ieee" style="display: none;">
+                        <div class="qr-code-item" data-size="2" data-type="ieee" data-discounted="false" style="display: none;">
                             <p class="qr-label">2 Members - IEEE Member</p>
                             <div class="qr-placeholder">
-                                <img src="./QR/qr_800.png" alt="ieee_qr" height="100%">
+                                <img src="./QR/qr_800.png" alt="QR" height="100%">
                             </div>
                             <p class="qr-amount">Amount: ₹800</p>
                         </div>
 
-                        <!-- 2 Members Non-IEEE -->
-                        <div class="qr-code-item" data-size="2" data-type="nonIeee" style="display: none;">
-                            <p class="qr-label">2 Members - Non-IEEE Member</p>
+                        <div class="qr-code-item" data-size="2" data-type="nonIeee" data-discounted="false" style="display: none;">
+                            <p class="qr-label">2 Members - Non-IEEE</p>
                             <div class="qr-placeholder">
-                                <img src="./QR/qr_900.png" alt="ieee_qr" height="100%">
+                                <img src="./QR/qr_900.png" alt="QR" height="100%">
                             </div>
                             <p class="qr-amount">Amount: ₹900</p>
                         </div>
 
-                        <!-- 3 Members IEEE -->
-                        <div class="qr-code-item" data-size="3" data-type="ieee" style="display: none;">
+                        <div class="qr-code-item" data-size="3" data-type="ieee" data-discounted="false" style="display: none;">
                             <p class="qr-label">3 Members - IEEE Member</p>
                             <div class="qr-placeholder">
-                               <img src="./QR/qr_1200.png" alt="ieee_qr" height="100%">
+                                <img src="./QR/qr_1200.png" alt="QR" height="100%">
                             </div>
                             <p class="qr-amount">Amount: ₹1200</p>
                         </div>
 
-                        <!-- 3 Members Non-IEEE -->
-                        <div class="qr-code-item" data-size="3" data-type="nonIeee" style="display: none;">
-                            <p class="qr-label">3 Members - Non-IEEE Member</p>
+                        <div class="qr-code-item" data-size="3" data-type="nonIeee" data-discounted="false" style="display: none;">
+                            <p class="qr-label">3 Members - Non-IEEE</p>
                             <div class="qr-placeholder">
-                                <img src="./QR/qr_1350.png" alt="ieee_qr" height="100%">
+                                <img src="./QR/qr_1350.png" alt="QR" height="100%">
                             </div>
                             <p class="qr-amount">Amount: ₹1350</p>
                         </div>
 
-                        <!-- 4 Members IEEE -->
-                        <div class="qr-code-item" data-size="4" data-type="ieee" style="display: none;">
+                        <div class="qr-code-item" data-size="4" data-type="ieee" data-discounted="false" style="display: none;">
                             <p class="qr-label">4 Members - IEEE Member</p>
                             <div class="qr-placeholder">
-                                <img src="./QR/qr_1400.png" alt="ieee_qr" height="100%">
+                                <img src="./QR/qr_1400.png" alt="QR" height="100%">
                             </div>
                             <p class="qr-amount">Amount: ₹1400</p>
                         </div>
 
-                        <!-- 4 Members Non-IEEE -->
-                        <div class="qr-code-item" data-size="4" data-type="nonIeee" style="display: none;">
-                            <p class="qr-label">4 Members - Non-IEEE Member</p>
+                        <div class="qr-code-item" data-size="4" data-type="nonIeee" data-discounted="false" style="display: none;">
+                            <p class="qr-label">4 Members - Non-IEEE</p>
                             <div class="qr-placeholder">
-                                <img src="./QR/qr_1600.png" alt="ieee_qr" height="100%">
+                                <img src="./QR/qr_1600.png" alt="QR" height="100%">
                             </div>
                             <p class="qr-amount">Amount: ₹1600</p>
+                        </div>
+
+                        <!-- Discounted price  -->
+                        <div class="qr-code-item" data-size="4" data-type="nonIeee" data-discounted="true" style="display: none;">
+                            <p class="qr-label">4 Members - Non-IEEE (Discounted)</p>
+                            <div class="qr-placeholder">
+                                <img src="./QR/qr_999.png" alt="QR discounted" height="100%">
+                            </div>
+                            <p class="qr-amount">Amount: ₹999</p>
                         </div>
                     </div>
 
                     <ul class="qr-instruction" style="margin-top: 1rem;">
-                    <li>Open your UPI app</li>
-                    <li>Scan the QR code</li>
-                    <li>Pay the given amount</li>
-                    <li> Pay through Phonepay/Gpay/Paytm only. no other UPI interface </li>
-                    <li>Email will be recived only after payment confirmation.</li></ul>
-                    <p class="qr-instruction1" style="margin-top: 0.5rem; color: var(--accent);" style="text-align: center;">
-                        Pay the amount correctly that is disclosed above <br>
+                        <li>Open your UPI app</li>
+                        <li>Scan the QR code</li>
+                        <li>Pay the given amount</li>
+                        <li>Pay through Phonepay/Gpay/Paytm only. no other UPI interface</li>
+                        <li>Email will be received only after payment confirmation.</li>
+                    </ul>
+                    <p class="qr-instruction1" style="margin-top: 0.5rem; color: var(--accent); text-align: center;">
+                        Pay the amount correctly that is disclosed above<br>
                         After payment, upload the screenshot below
                     </p>
                 </div>
@@ -826,112 +884,160 @@
     </div>
 
     <script>
-        // ⚠️ IMPORTANT: Replace this with your actual Google Apps Script Web App URL
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyk8RUa59SK6RYXRSZsu7reAR0ST8cxdxjyAr2r6vTaYhf2D2uNGGDG_GVgnF7GDTrx/exec';
+    // ⚠️ IMPORTANT: Replace this with your actual Google Apps Script Web App URL
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyk8RUa59SK6RYXRSZsu7reAR0ST8cxdxjyAr2r6vTaYhf2D2uNGGDG_GVgnF7GDTrx/exec';
 
-        // Maximum file size in bytes (100 KB)
-        const MAX_FILE_SIZE = 100 * 1024; // 100 KB
+    const MAX_FILE_SIZE = 100 * 1024; // 100 KB
 
-        // Generate stars
-        function createStars() {
-            const container = document.getElementById('starsContainer');
-            const numberOfStars = 150;
+    // Fee structure (base prices)
+    const baseFeeStructure = {
+        '1': { ieee: 450, nonIeee: 500 },
+        '2': { ieee: 800, nonIeee: 900 },
+        '3': { ieee: 1200, nonIeee: 1350 },
+        '4': { ieee: 1400, nonIeee: 1600 }
+    };
 
-            for (let i = 0; i < numberOfStars; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                
-                const size = Math.random() * 3;
-                star.style.width = size + 'px';
-                star.style.height = size + 'px';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                
-                container.appendChild(star);
-            }
+    let couponApplied = false;
+
+    // Elements
+    const teamSizeSelect     = document.getElementById('teamSize');
+    const ieeeMemberRadios   = document.querySelectorAll('input[name="ieeeMember"]');
+    const feeDisplay         = document.getElementById('feeDisplay');
+    const feeAmount          = document.getElementById('feeAmount');
+    const teamLeadSection    = document.getElementById('teamLeadSection');
+    const teamMembersContainer = document.getElementById('teamMembersContainer');
+    const ieeeMembershipIdsContainer = document.getElementById('ieeeMembershipIdsContainer');
+    const couponSection      = document.getElementById('couponSection');
+    const couponCodeInput    = document.getElementById('couponCode');
+    const applyCouponBtn     = document.getElementById('applyCouponBtn');
+    const couponMessage      = document.getElementById('couponMessage');
+    const qrSection          = document.getElementById('qrSection');
+    const uploadSection      = document.getElementById('uploadSection');
+    const submitSection      = document.getElementById('submitSection');
+    const registrationForm   = document.getElementById('registrationForm');
+    const successMessage     = document.getElementById('successMessage');
+    const loadingOverlay     = document.getElementById('loadingOverlay');
+    const errorMessage       = document.getElementById('errorMessage');
+    const submitBtn          = document.getElementById('submitBtn');
+
+    // File upload elements
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput  = document.getElementById('paymentScreenshot');
+    const fileInfo   = document.getElementById('fileInfo');
+    const fileName   = document.getElementById('fileName');
+    const fileSize   = document.getElementById('fileSize');
+    const fileError  = document.getElementById('fileError');
+
+    let uploadedFile = null;
+
+    function createStars() {
+        const container = document.getElementById('starsContainer');
+        const numberOfStars = 150;
+        for (let i = 0; i < numberOfStars; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 3;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            container.appendChild(star);
+        }
+    }
+
+    function regenerateDynamicFields(teamSize) {
+        generateTeamMemberFields(teamSize);
+        generateIeeeMembershipIdFields(teamSize);
+    }
+
+    function updateFeeAndDisplay() {
+        const teamSize = teamSizeSelect.value;
+        const ieeeRadio = document.querySelector('input[name="ieeeMember"]:checked');
+
+        if (!teamSize || !ieeeRadio) {
+            feeDisplay.style.display = 'none';
+            teamLeadSection.style.display = 'none';
+            couponSection.style.display = 'none';
+            qrSection.style.display = 'none';
+            uploadSection.style.display = 'none';
+            submitSection.style.display = 'none';
+            ieeeMembershipIdsContainer.style.display = 'none';
+            return;
         }
 
-        // Fee structure
-        const feeStructure = {
-            '1': { ieee: 450, nonIeee: 500 },
-            '2': { ieee: 800, nonIeee: 900 },
-            '3': { ieee: 1200, nonIeee: 1350 },
-            '4': { ieee: 1400, nonIeee: 1600 }
-        };
+        const isIEEE = ieeeRadio.value === 'yes';
+        const memberType = isIEEE ? 'ieee' : 'nonIeee';
+        let fee = baseFeeStructure[teamSize][memberType];
 
-        // Elements
-        const teamSizeSelect = document.getElementById('teamSize');
-        const ieeeMemberRadios = document.querySelectorAll('input[name="ieeeMember"]');
-        const feeDisplay = document.getElementById('feeDisplay');
-        const feeAmount = document.getElementById('feeAmount');
-        const teamLeadSection = document.getElementById('teamLeadSection');
-        const teamMembersContainer = document.getElementById('teamMembersContainer');
-        const ieeeMembershipIdsContainer = document.getElementById('ieeeMembershipIdsContainer');
-        const qrSection = document.getElementById('qrSection');
-        const uploadSection = document.getElementById('uploadSection');
-        const submitSection = document.getElementById('submitSection');
-        const registrationForm = document.getElementById('registrationForm');
-        const successMessage = document.getElementById('successMessage');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-        const errorMessage = document.getElementById('errorMessage');
-        const submitBtn = document.getElementById('submitBtn');
+        // Reset coupon state every time we recalculate
+        couponApplied = false;
+        couponMessage.className = 'coupon-message';
+        couponMessage.textContent = '';
 
-        // File upload elements
-        const uploadArea = document.getElementById('uploadArea');
-        const fileInput = document.getElementById('paymentScreenshot');
-        const fileInfo = document.getElementById('fileInfo');
-        const fileName = document.getElementById('fileName');
-        const fileSize = document.getElementById('fileSize');
-        const fileError = document.getElementById('fileError');
+        const leadCollegeVal = document.getElementById('lead_college').value.trim().toLowerCase();
+        const isTkrcOrTkem = leadCollegeVal.includes('tkrc') || leadCollegeVal.includes('tkem');
+        const canUseCoupon = (teamSize === '4' && isTkrcOrTkem);
 
-        let uploadedFile = null;
+        if (canUseCoupon) {
+            couponSection.style.display = 'block';
+            const code = couponCodeInput.value.trim().toLowerCase();
 
-        // Update fee display
-        function updateFee() {
-            const teamSize = teamSizeSelect.value;
-            const ieeeMember = document.querySelector('input[name="ieeeMember"]:checked');
-
-            if (teamSize && ieeeMember) {
-                const memberType = ieeeMember.value === 'yes' ? 'ieee' : 'nonIeee';
-                const fee = feeStructure[teamSize][memberType];
-                
-                feeAmount.textContent = `₹${fee}`;
-                feeDisplay.style.display = 'block';
-                teamLeadSection.style.display = 'block';
-                qrSection.style.display = 'block';
-                uploadSection.style.display = 'block';
-                submitSection.style.display = 'block';
-                
-                generateTeamMemberFields(parseInt(teamSize));
-                generateIeeeMembershipIdFields(parseInt(teamSize));
-                showCorrectQRCode(teamSize, memberType);
+            if (code === 'tkrhcq2026') {
+                couponApplied = true;
+                couponMessage.textContent = 'Coupon applied successfully!';
+                couponMessage.classList.add('success');
+                // fee -= 100;   // only uncomment if you want to *display* discounted price
+            } else if (code !== '') {
+                couponMessage.textContent = 'Invalid coupon code';
+                couponMessage.classList.add('error');
             }
+        } else {
+            couponSection.style.display = 'none';
         }
 
-        // Show the correct QR code based on team size and IEEE membership
-        function showCorrectQRCode(teamSize, memberType) {
-            // Hide all QR codes first
-            const allQRCodes = document.querySelectorAll('.qr-code-item');
-            allQRCodes.forEach(qr => qr.style.display = 'none');
-            
-            // Show the correct QR code
-            const correctQR = document.querySelector(`.qr-code-item[data-size="${teamSize}"][data-type="${memberType}"]`);
-            if (correctQR) {
-                correctQR.style.display = 'block';
-            }
+        feeAmount.textContent = `₹${fee}`;
+        feeDisplay.style.display = 'block';
+        teamLeadSection.style.display = 'block';
+        qrSection.style.display = 'block';
+        uploadSection.style.display = 'block';
+        submitSection.style.display = 'block';
+
+        showCorrectQRCode(teamSize, memberType, couponApplied && canUseCoupon);
+    }
+
+    function handleStructureChange() {
+        const teamSize = parseInt(teamSizeSelect.value) || 0;
+        updateFeeAndDisplay();
+        regenerateDynamicFields(teamSize);
+    }
+
+    function showCorrectQRCode(teamSize, memberType, discounted = false) {
+        const allQRCodes = document.querySelectorAll('.qr-code-item');
+        allQRCodes.forEach(qr => qr.style.display = 'none');
+
+        let selector = `.qr-code-item[data-size="${teamSize}"][data-type="${memberType}"][data-discounted="${discounted}"]`;
+        let correctQR = document.querySelector(selector);
+
+        if (!correctQR && discounted) {
+            // fallback to non-discounted if discounted version missing
+            selector = `.qr-code-item[data-size="${teamSize}"][data-type="${memberType}"][data-discounted="false"]`;
+            correctQR = document.querySelector(selector);
         }
 
-        // Generate team member input fields
-        // Generate team member input fields with sequential names
-function generateTeamMemberFields(teamSize) {
-    teamMembersContainer.innerHTML = '';
+        if (correctQR) {
+            correctQR.style.display = 'block';
+        }
+    }
 
-    if (teamSize > 1) {
+    function generateTeamMemberFields(teamSize) {
+        teamMembersContainer.innerHTML = '';
+        if (teamSize <= 1) return;
+
         const section = document.createElement('div');
         section.className = 'form-section';
         section.innerHTML = '<h2 class="section-title">Team Members Information</h2>';
-        
+
         for (let i = 2; i <= teamSize; i++) {
             const memberCard = document.createElement('div');
             memberCard.className = 'team-member-card';
@@ -942,32 +1048,26 @@ function generateTeamMemberFields(teamSize) {
                         <label for="member${i}_name">Full Name <span class="required">*</span></label>
                         <input type="text" id="member${i}_name" name="member${i}_name" placeholder="Enter full name" required>
                     </div>
-
                     <div class="form-group">
                         <label for="member${i}_mobile">Mobile Number <span class="required">*</span></label>
                         <input type="tel" id="member${i}_mobile" name="member${i}_mobile" placeholder="10-digit mobile" pattern="[0-9]{10}" required>
                     </div>
-
                     <div class="form-group">
                         <label for="member${i}_email">Email ID <span class="required">*</span></label>
                         <input type="email" id="member${i}_email" name="member${i}_email" placeholder="email@example.com" required>
                     </div>
-
                     <div class="form-group">
                         <label for="member${i}_college">College Name <span class="required">*</span></label>
                         <input type="text" id="member${i}_college" name="member${i}_college" placeholder="Enter college name" required>
                     </div>
-
                     <div class="form-group">
                         <label for="member${i}_roll">Roll Number <span class="required">*</span></label>
                         <input type="text" id="member${i}_roll" name="member${i}_roll" placeholder="Enter roll number" required>
                     </div>
-
                     <div class="form-group">
                         <label for="member${i}_branch">Branch/Department <span class="required">*</span></label>
                         <input type="text" id="member${i}_branch" name="member${i}_branch" placeholder="E.g., CSE, ECE, EEE" required>
                     </div>
-
                     <div class="form-group">
                         <label for="member${i}_year">Year <span class="required">*</span></label>
                         <select id="member${i}_year" name="member${i}_year" required>
@@ -982,213 +1082,184 @@ function generateTeamMemberFields(teamSize) {
             `;
             section.appendChild(memberCard);
         }
-        
         teamMembersContainer.appendChild(section);
     }
-}
 
-        // File upload handling
-        uploadArea.addEventListener('click', () => {
-            fileInput.click();
+    function generateIeeeMembershipIdFields(teamSize) {
+        const ieeeRadio = document.querySelector('input[name="ieeeMember"]:checked');
+        ieeeMembershipIdsContainer.innerHTML = '';
+
+        if (!ieeeRadio || ieeeRadio.value !== 'yes' || !teamSize || teamSize < 1) {
+            ieeeMembershipIdsContainer.style.display = 'none';
+            return;
+        }
+
+        const section = document.createElement('div');
+        section.className = 'form-section';
+        section.innerHTML = '<h2 class="section-title">IEEE Membership IDs</h2>';
+
+        const card = document.createElement('div');
+        card.className = 'team-member-card';
+        card.innerHTML = `
+            <div class="card-header">🎫 IEEE Membership IDs for All Team Members</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="lead_ieee_id">Team Lead IEEE ID <span class="required">*</span></label>
+                    <input type="text" id="lead_ieee_id" name="lead_ieee_id" placeholder="Enter IEEE Membership ID" required>
+                </div>
+        `;
+
+        for (let i = 2; i <= teamSize; i++) {
+            card.innerHTML += `
+                <div class="form-group">
+                    <label for="member${i}_ieee_id">Member ${i} IEEE ID <span class="required">*</span></label>
+                    <input type="text" id="member${i}_ieee_id" name="member${i}_ieee_id" placeholder="Enter IEEE Membership ID" required>
+                </div>
+            `;
+        }
+
+        card.innerHTML += '</div>';
+        section.appendChild(card);
+        ieeeMembershipIdsContainer.appendChild(section);
+        ieeeMembershipIdsContainer.style.display = 'block';
+    }
+
+    // File handling
+    uploadArea.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', (e) => {
+        handleFileSelect(e.target.files[0]);
+    });
+
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        handleFileSelect(e.dataTransfer.files[0]);
+    });
+
+    function handleFileSelect(file) {
+        fileError.classList.remove('show');
+        fileInfo.classList.remove('show');
+
+        if (!file) return;
+
+        const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+        if (!validTypes.includes(file.type)) {
+            fileError.textContent = '❌ Please upload JPG or PNG only.';
+            fileError.classList.add('show');
+            fileInput.value = '';
+            return;
+        }
+
+        if (file.size > MAX_FILE_SIZE) {
+            const fileSizeKB = (file.size / 1024).toFixed(2);
+            fileError.textContent = `❌ File too large (${fileSizeKB} KB). Max 100 KB.`;
+            fileError.classList.add('show');
+            fileInput.value = '';
+            return;
+        }
+
+        uploadedFile = file;
+        fileName.textContent = `✅ ${file.name}`;
+        fileSize.textContent = `Size: ${(file.size / 1024).toFixed(2)} KB`;
+        fileInfo.classList.add('show');
+    }
+
+    function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
         });
+    }
 
-        fileInput.addEventListener('change', (e) => {
-            handleFileSelect(e.target.files[0]);
-        });
+    // ────────────────────────────────────────────────
+    //   EVENT LISTENERS
+    // ────────────────────────────────────────────────
 
-        // Drag and drop
-        uploadArea.addEventListener('dragover', (e) => {
+    teamSizeSelect.addEventListener('change', handleStructureChange);
+    ieeeMemberRadios.forEach(radio => radio.addEventListener('change', handleStructureChange));
+    document.getElementById('lead_college').addEventListener('input', updateFeeAndDisplay);
+
+    applyCouponBtn.addEventListener('click', updateFeeAndDisplay);
+    couponCodeInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
             e.preventDefault();
-            uploadArea.classList.add('dragover');
-        });
+            updateFeeAndDisplay();
+        }
+    });
 
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
+    registrationForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('dragover');
-            handleFileSelect(e.dataTransfer.files[0]);
-        });
-
-        function handleFileSelect(file) {
-            fileError.classList.remove('show');
-            fileInfo.classList.remove('show');
-
-            if (!file) return;
-
-            // Check file type
-            const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-            if (!validTypes.includes(file.type)) {
-                fileError.textContent = '❌ Please upload a JPG or PNG image only.';
-                fileError.classList.add('show');
-                fileInput.value = '';
-                return;
-            }
-
-            // Check file size
-            if (file.size > MAX_FILE_SIZE) {
-                const fileSizeKB = (file.size / 1024).toFixed(2);
-                fileError.textContent = `❌ File size is ${fileSizeKB} KB. Maximum allowed is 100 KB. Please compress your image.`;
-                fileError.classList.add('show');
-                fileInput.value = '';
-                return;
-            }
-
-            // File is valid
-            uploadedFile = file;
-            fileName.textContent = `✅ ${file.name}`;
-            fileSize.textContent = `Size: ${(file.size / 1024).toFixed(2)} KB`;
-            fileInfo.classList.add('show');
+        if (!uploadedFile) {
+            errorMessage.textContent = '⚠️ Please upload the payment screenshot before submitting.';
+            errorMessage.classList.add('show');
+            return;
         }
 
-        // Convert file to base64
-        function fileToBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
-        }
+        loadingOverlay.classList.add('show');
+        submitBtn.disabled = true;
+        errorMessage.classList.remove('show');
 
-        // Event listeners
-        teamSizeSelect.addEventListener('change', updateFee);
-        ieeeMemberRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
-                updateFee();
-                toggleIeeeMemberIdField();
-            });
-        });
+        try {
+            const base64File = await fileToBase64(uploadedFile);
 
-        // Toggle IEEE Membership ID fields
-        function toggleIeeeMemberIdField() {
-            const teamSize = parseInt(teamSizeSelect.value) || 0;
-            generateIeeeMembershipIdFields(teamSize);
-        }
+            const formData = new FormData(registrationForm);
+            const data = {
+                timestamp: new Date().toISOString(),
+                paymentScreenshot: {
+                    name: uploadedFile.name,
+                    size: uploadedFile.size,
+                    type: uploadedFile.type,
+                    data: base64File
+                },
+                couponUsed: couponApplied ? 'tkrhcq2026' : 'none'
+            };
 
-        // Generate IEEE Membership ID fields for all team members
-        function generateIeeeMembershipIdFields(teamSize) {
-            const ieeeMember = document.querySelector('input[name="ieeeMember"]:checked');
-            
-            // Only generate if IEEE member is selected and team size is valid
-            if (!ieeeMember || ieeeMember.value !== 'yes' || !teamSize || teamSize < 1) {
-                ieeeMembershipIdsContainer.style.display = 'none';
-                ieeeMembershipIdsContainer.innerHTML = '';
-                return;
-            }
-
-            ieeeMembershipIdsContainer.innerHTML = '';
-            
-            if (teamSize >= 1) {
-                const section = document.createElement('div');
-                section.className = 'form-section';
-                section.innerHTML = '<h2 class="section-title">IEEE Membership IDs</h2>';
-                
-                const card = document.createElement('div');
-                card.className = 'team-member-card';
-                card.innerHTML = `
-                    <div class="card-header">🎫 IEEE Membership IDs for All Team Members</div>
-                    <div class="form-grid">
-                `;
-                
-                // Add IEEE ID field for Team Lead
-                card.innerHTML += `
-                    <div class="form-group">
-                        <label for="lead_ieee_id">Team Lead IEEE ID <span class="required">*</span></label>
-                        <input type="text" id="lead_ieee_id" name="lead_ieee_id" placeholder="Enter IEEE Membership ID" required>
-                    </div>
-                `;
-                
-                // Add IEEE ID fields for other team members
-                for (let i = 2; i <= teamSize; i++) {
-                    card.innerHTML += `
-                        <div class="form-group">
-                            <label for="member${i}_ieee_id">Member ${i} IEEE ID <span class="required">*</span></label>
-                            <input type="text" id="member${i}_ieee_id" name="member${i}_ieee_id" placeholder="Enter IEEE Membership ID" required>
-                        </div>
-                    `;
+            for (let [key, value] of formData.entries()) {
+                if (key !== 'paymentScreenshot') {
+                    data[key] = value;
                 }
-                
-                card.innerHTML += '</div>'; // Close form-grid
-                section.appendChild(card);
-                ieeeMembershipIdsContainer.appendChild(section);
-                ieeeMembershipIdsContainer.style.display = 'block';
             }
+
+            // Debug: see what is being sent (open DevTools → Console)
+            console.log("Submitting data:", data);
+
+            await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            loadingOverlay.classList.remove('show');
+            registrationForm.style.display = 'none';
+            successMessage.classList.add('show');
+
+        } catch (error) {
+            console.error('Submit error:', error);
+            loadingOverlay.classList.remove('show');
+            submitBtn.disabled = false;
+            errorMessage.textContent = '⚠️ An error occurred. Check console. Try again.';
+            errorMessage.classList.add('show');
         }
+    });
 
-        // Form submission
-        registrationForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-        
-            
-
-            // Check if file is uploaded
-            if (!uploadedFile) {
-                errorMessage.textContent = '⚠️ Please upload the payment screenshot before submitting.';
-                errorMessage.classList.add('show');
-                return;
-            }
-
-            // Show loading
-            loadingOverlay.classList.add('show');
-            submitBtn.disabled = true;
-            errorMessage.classList.remove('show');
-            
-            try {
-                // Convert file to base64
-                const base64File = await fileToBase64(uploadedFile);
-                
-                // Collect form data
-                const formData = new FormData(registrationForm);
-                const data = {
-                    timestamp: new Date().toISOString(),
-                    paymentScreenshot: {
-                        name: uploadedFile.name,
-                        size: uploadedFile.size,
-                        type: uploadedFile.type,
-                        data: base64File
-                    }
-                };
-                
-                for (let [key, value] of formData.entries()) {
-                    if (key !== 'paymentScreenshot') {
-                        data[key] = value;
-                    }
-                }
-                
-                // Send to Google Sheets
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                // Note: Due to no-cors mode, we can't read the response
-                // But if no error is thrown, we can assume success
-                
-                // Hide loading
-                loadingOverlay.classList.remove('show');
-                
-                // Hide form and show success message
-                registrationForm.style.display = 'none';
-                successMessage.classList.add('show');
-                
-            } catch (error) {
-                console.error('Error:', error);
-                loadingOverlay.classList.remove('show');
-                submitBtn.disabled = false;
-                errorMessage.textContent = '⚠️ An error occurred while submitting. Please try again or contact support.';
-                errorMessage.classList.add('show');
-            }
-        });
-
-        // Initialize
-        window.addEventListener('load', createStars);
-    </script>
+    window.addEventListener('load', () => {
+        createStars();
+        updateFeeAndDisplay();
+    });
+</script>
 </body>
 </html>
