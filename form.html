@@ -811,13 +811,22 @@
                             <p class="qr-amount">Amount: ₹1600</p>
                         </div>
 
-                        <!-- Discounted price  -->
+                        <!--  Discounted price for tkr students of team of 4 -->
                         <div class="qr-code-item" data-size="4" data-type="nonIeee" data-discounted="true" style="display: none;">
                             <p class="qr-label">4 Members - Non-IEEE (Discounted)</p>
                             <div class="qr-placeholder">
                                 <img src="./QR/qr_999.png" alt="QR discounted" height="100%">
                             </div>
                             <p class="qr-amount">Amount: ₹999</p>
+                        </div>
+
+                        <!-- discounted price for tkr students of team of 3  -->
+                        <div class="qr-code-item" data-size="3" data-type="nonIeee" data-discounted="true" style="display: none;">
+                            <p class="qr-label">3 Members - Non-IEEE (Discounted)</p>
+                            <div class="qr-placeholder">
+                                <img src="QR/qr_949.png" alt="QR discounted" height="100%">
+                            </div>
+                            <p class="qr-amount">Amount: ₹949</p>
                         </div>
                     </div>
 
@@ -977,7 +986,8 @@
 
         const leadCollegeVal = document.getElementById('lead_college').value.trim().toLowerCase();
         const isTkrcOrTkem = leadCollegeVal.includes('tkrc') || leadCollegeVal.includes('tkem');
-        const canUseCoupon = (teamSize === '4' && isTkrcOrTkem);
+        // const canUseCoupon = (teamSize === '4' && isTkrcOrTkem);
+        const canUseCoupon = ((teamSize === '4' || '3') && isTkrcOrTkem);
 
         if (canUseCoupon) {
             couponSection.style.display = 'block';
