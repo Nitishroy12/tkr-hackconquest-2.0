@@ -851,7 +851,7 @@
                         <div class="upload-icon">📸</div>
                         <div class="upload-text">Click to upload or drag and drop <br> 
                                                 Make sure that payment transaction id is visible in the screenshot  </div>
-                        <div class="upload-hint">Payment screenshot (Max 100 KB, JPG/PNG)</div>
+                        <div class="upload-hint">Payment screenshot (Max 1 mb, JPG/PNG)</div>
                         <input type="file" id="paymentScreenshot" name="paymentScreenshot" class="file-input" accept="image/jpeg,image/jpg,image/png" required>
                     </div>
 
@@ -896,7 +896,7 @@
     // ⚠️ IMPORTANT: Replace this with your actual Google Apps Script Web App URL
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyk8RUa59SK6RYXRSZsu7reAR0ST8cxdxjyAr2r6vTaYhf2D2uNGGDG_GVgnF7GDTrx/exec';
 
-    const MAX_FILE_SIZE = 100 * 1024; // 100 KB
+    const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1mb
 
     // Fee structure (base prices)
     const baseFeeStructure = {
@@ -985,7 +985,8 @@
         couponMessage.textContent = '';
 
         const leadCollegeVal = document.getElementById('lead_college').value.trim().toLowerCase();
-        const isTkrcOrTkem = leadCollegeVal.includes('tkrc') || leadCollegeVal.includes('tkem');
+        // const M1CollegeVal = document.getElementById('member1_college').value.trim().toLowerCase();
+        const isTkrcOrTkem = leadCollegeVal.includes('tkrc') || leadCollegeVal.includes('tkem') ;
         // const canUseCoupon = (teamSize === '4' && isTkrcOrTkem);
         const canUseCoupon = ((teamSize === '4' || '3') && isTkrcOrTkem);
 
@@ -1172,7 +1173,7 @@
 
         if (file.size > MAX_FILE_SIZE) {
             const fileSizeKB = (file.size / 1024).toFixed(2);
-            fileError.textContent = `❌ File too large (${fileSizeKB} KB). Max 100 KB.`;
+            fileError.textContent = `❌ File too large (${fileSizeKB} KB). Maximum allowed: 1 MB.`;
             fileError.classList.add('show');
             fileInput.value = '';
             return;
