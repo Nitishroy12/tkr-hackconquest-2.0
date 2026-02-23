@@ -320,7 +320,7 @@
         }
 
         .coupon-message.success {
-            color: #ef4444;
+            color: green;
         }
 
         .coupon-message.error {
@@ -813,20 +813,20 @@
 
                         <!--  Discounted price for tkr students of team of 4 -->
                         <div class="qr-code-item" data-size="4" data-type="nonIeee" data-discounted="true" style="display: none;">
-                            <p class="qr-label">4 Members - Non-IEEE</p>
+                            <p class="qr-label">4 Members - Non-IEEE(Discounted)</p>
                             <div class="qr-placeholder">
-                                <img src="./QR/qr_1600.png" alt="QR discounted" height="100%">
+                                <img src="./QR/qr_999.png" alt="QR discounted" height="100%">
                             </div>
-                            <p class="qr-amount">Amount: ₹1600</p>
+                            <p class="qr-amount">Amount: ₹999</p>
                         </div>
 
                         <!-- discounted price for tkr students of team of 3  -->
                         <div class="qr-code-item" data-size="3" data-type="nonIeee" data-discounted="true" style="display: none;">
-                            <p class="qr-label">3 Members - Non-IEEE</p>
+                            <p class="qr-label">3 Members - Non-IEEE(Discounted)</p>
                             <div class="qr-placeholder">
-                                <img src="QR/qr_1350.png" alt="QR discounted" height="100%">
+                                <img src="QR/qr_949.png" alt="QR discounted" height="100%">
                             </div>
-                            <p class="qr-amount">Amount: ₹1350</p>
+                            <p class="qr-amount">Amount: ₹949</p>
                         </div>
                     </div>
 
@@ -996,7 +996,7 @@
 
             if (code === 'tkrhcq2026') {
                 couponApplied = true;
-                couponMessage.textContent = 'Coupon Code is Expired !';
+                couponMessage.textContent = 'Coupon Code applied successfully ✅';
                 couponMessage.classList.add('success');
                 // fee -= 100;   // only uncomment if you want to *display* discounted price
             } else if (code !== '') {
