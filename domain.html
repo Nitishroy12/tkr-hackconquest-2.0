@@ -6,435 +6,1543 @@
     <title>Domains | TKR Hack Conquest 2.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --bg-dark: #0a0e1f;
-            --bg-darker: #05070f;
-            --primary: #00c4e0;
-            --secondary: #4fd1c5;
-            --accent: #a5f3fc;
-            --text: #f1f5f9;
+            --bg-dark: #0a0e1f; --bg-darker: #05070f;
+            --primary: #00c4e0; --secondary: #4fd1c5;
+            --accent: #a5f3fc; --text: #f1f5f9;
             --text-muted: #cbd5e1;
             --card-bg: rgba(15, 23, 42, 0.65);
             --border: rgba(0, 196, 224, 0.18);
         }
-
         body {
             font-family: 'Exo 2', sans-serif;
             background: var(--bg-darker) url('./blackhatcoder.jpg') center/cover no-repeat fixed;
-            color: var(--text);
-            line-height: 1.6;
-            position: relative;
-            overflow-x: hidden;
+            color: var(--text); line-height: 1.6;
+            position: relative; overflow-x: hidden;
         }
-
         body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: linear-gradient(to bottom, rgba(10, 14, 31, 0.694), rgba(5, 7, 15, 0.826));
-            z-index: -2;
-            pointer-events: none;
+            content: ''; position: fixed; inset: 0;
+            background: linear-gradient(to bottom, rgba(10,14,31,0.694), rgba(5,7,15,0.826));
+            z-index: -2; pointer-events: none;
         }
+        .stars-bg { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; pointer-events:none; }
+        .star { position:absolute; background:rgb(28,169,197); border-radius:50%; animation:twinkle 2s infinite ease-in-out; }
+        @keyframes twinkle { 0%,100%{opacity:0.3} 50%{opacity:0.7} }
+        .container { max-width:1400px; margin:0 auto; padding:0 2rem; position:relative; z-index:1; }
+        header { padding:1.8rem 0; position:sticky; top:0; backdrop-filter:blur(12px); background:rgba(10,14,31,0.82); border-bottom:1px solid var(--border); z-index:100; }
+        .header-content { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+        .logo-text { font-family:'Orbitron',sans-serif; font-size:1.6rem; font-weight:900; background:linear-gradient(135deg,var(--primary),var(--secondary)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .nav-links { display:flex; gap:2rem; list-style:none; }
+        .nav-links a { color:var(--text-muted); text-decoration:none; font-weight:600; transition:color 0.3s; }
+        .nav-links a:hover { color:var(--primary); }
 
-        .stars-bg {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
+        /* PAGE SYSTEM */
+        .page { display:none; }
+        .page.active { display:block; animation:fadeIn 0.35s ease; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
 
-        .star {
-            position: absolute;
-            background: rgb(28, 169, 197);
-            border-radius: 50%;
-            animation: twinkle 2s infinite ease-in-out;
-        }
+        /* DOMAINS PAGE */
+        .section-title { font-family:'Orbitron',sans-serif; font-size:3.5rem; text-align:center; margin:5rem 0 4rem; background:linear-gradient(135deg,var(--primary),var(--secondary)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .subtitle { text-align:center; font-size:1.3rem; color:var(--text-muted); margin-bottom:4rem; max-width:800px; margin-left:auto; margin-right:auto; }
+        .domains-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(360px,1fr)); gap:2.2rem; margin-bottom:6rem; }
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.7; }
-        }
+        /* DOMAIN CARD */
+        .domain-card { background:var(--card-bg); border:1px solid var(--border); border-radius:20px; padding:2.5rem; backdrop-filter:blur(10px); transition:all 0.4s ease; position:relative; overflow:hidden; cursor:pointer; }
+        .domain-card::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle at 30% 20%,rgba(0,196,224,0.15),transparent 60%); opacity:0; transition:opacity 0.6s; pointer-events:none; }
+        .domain-card:hover { transform:translateY(-12px); border-color:var(--primary); box-shadow:0 20px 60px rgba(0,196,224,0.22); }
+        .domain-card:hover::before { opacity:1; }
+        .domain-card:active { transform:translateY(-6px) scale(0.98); }
+        .card-click-hint { margin-top:1.4rem; font-size:0.88rem; color:var(--primary); opacity:0; transition:opacity 0.3s; font-style:italic; }
+        .domain-card:hover .card-click-hint { opacity:1; }
+        .domain-icon { font-size:3.8rem; margin-bottom:1.4rem; display:block; }
+        .domain-title { font-family:'Orbitron',sans-serif; font-size:1.55rem; color:var(--accent); margin-bottom:1.2rem; }
+        .domain-desc { font-size:1.05rem; color:var(--text-muted); }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 1;
-        }
+        /* BUTTONS */
+        .back-btn { display:inline-block; margin:4rem auto 2rem; padding:1rem 2.5rem; background:linear-gradient(135deg,var(--primary),var(--secondary)); color:#0a0e1f; font-family:'Orbitron',sans-serif; font-weight:700; text-decoration:none; border-radius:50px; transition:all 0.3s; text-align:center; border:none; cursor:pointer; font-size:1rem; }
+        .back-btn:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(0,196,224,0.4); }
+        .outline-btn { display:inline-block; padding:0.9rem 2rem; border:1px solid var(--primary); color:var(--primary); font-family:'Orbitron',sans-serif; font-weight:700; text-decoration:none; border-radius:50px; transition:all 0.3s; font-size:0.9rem; background:transparent; cursor:pointer; }
+        .outline-btn:hover { background:rgba(0,196,224,0.1); transform:translateY(-2px); }
 
-        header {
-            padding: 1.8rem 0;
-            position: sticky;
-            top: 0;
-            backdrop-filter: blur(12px);
-            background: rgba(10, 14, 31, 0.82);
-            border-bottom: 1px solid var(--border);
-            z-index: 100;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .logo-text {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            text-align: center;
-            margin: 5rem 0 4rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .subtitle {
-            text-align: center;
-            font-size: 1.3rem;
-            color: var(--text-muted);
-            margin-bottom: 4rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .domains-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-            gap: 2.2rem;
-            margin-bottom: 6rem;
-        }
-
-        .domain-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2.5rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .domain-card::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle at 30% 20%, rgba(0,196,224,0.15), transparent 60%);
-            opacity: 0;
-            transition: opacity 0.6s;
-            pointer-events: none;
-        }
-
-        .domain-card:hover {
-            transform: translateY(-12px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 60px rgba(0, 196, 224, 0.22);
-        }
-
-        .domain-card:hover::before {
-            opacity: 1;
-        }
-
-        .domain-icon {
-            font-size: 3.8rem;
-            margin-bottom: 1.4rem;
-            display: block;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            /* -webkit-text-fill-color: transparent; */
-        }
-
-        .domain-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            color: var(--accent);
-            margin-bottom: 1.2rem;
-        }
-
-        .domain-desc {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-        }
-
-        .subthemes {
-            margin-top: 1.8rem;
-            padding-top: 1.4rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .subthemes h4 {
-            color: var(--secondary);
-            font-size: 1.15rem;
-            margin-bottom: 0.9rem;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .subtheme-list {
-            list-style: none;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-        }
-
-        .subtheme-tag {
-            background: rgba(0, 196, 224, 0.12);
-            border: 1px solid rgba(0, 196, 224, 0.3);
-            padding: 0.5rem 1rem;
-            border-radius: 30px;
-            font-size: 0.95rem;
-            color: var(--accent);
-        }
-
-        footer {
-            background: var(--bg-dark);
-            padding: 3rem 0;
-            text-align: center;
-            border-top: 1px solid var(--border);
-            margin-top: 6rem;
-        }
-
-        .back-btn {
-            display: inline-block;
-            margin: 4rem auto 2rem;
-            padding: 1rem 2.5rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #0a0e1f;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            text-decoration: none;
-            border-radius: 50px;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .back-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(0, 196, 224, 0.4);
-        }
-
-        @media (max-width: 768px) {
-            .section-title { font-size: 2.8rem; }
-            .domains-grid { grid-template-columns: 1fr; }
-        }
+        /* PROBLEM STATEMENTS PAGE */
+        .ps-header { text-align:center; padding:5rem 0 3rem; }
+        .ps-domain-icon { font-size:5rem; display:block; margin-bottom:1rem; }
+        .ps-title { font-family:'Orbitron',sans-serif; font-size:2.5rem; background:linear-gradient(135deg,var(--primary),var(--secondary)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:0.8rem; }
+        .ps-subtitle { color:var(--text-muted); font-size:1.05rem; max-width:760px; margin:0 auto 1.2rem; }
+        .ps-count-badge { display:inline-block; background:rgba(0,196,224,0.1); border:1px solid rgba(0,196,224,0.35); color:var(--primary); padding:0.4rem 1.4rem; border-radius:30px; font-size:0.92rem; font-family:'Orbitron',sans-serif; }
+        .problems-list { display:grid; gap:1.4rem; margin:3rem 0 5rem; }
+        .problem-card { background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:1.8rem 2rem; backdrop-filter:blur(10px); transition:all 0.3s ease; display:flex; gap:1.5rem; align-items:flex-start; }
+        .problem-card:hover { border-color:var(--primary); box-shadow:0 10px 40px rgba(0,196,224,0.13); transform:translateX(6px); }
+        .ps-number { font-family:'Orbitron',sans-serif; font-size:1.5rem; color:var(--primary); opacity:0.45; min-width:3rem; padding-top:0.2rem; flex-shrink:0; }
+        .ps-problem-title { font-family:'Orbitron',sans-serif; font-size:1rem; color:var(--accent); margin-bottom:0.5rem; }
+        .ps-problem-desc { color:var(--text-muted); font-size:0.97rem; line-height:1.8; white-space:pre-wrap; }
+        .nav-actions { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; justify-content:center; margin-bottom:5rem; }
+        footer { background:var(--bg-dark); padding:3rem 0; text-align:center; border-top:1px solid var(--border); margin-top:4rem; }
+        @media(max-width:768px){ .section-title{font-size:2.2rem} .ps-title{font-size:1.8rem} .domains-grid{grid-template-columns:1fr} .problem-card{flex-direction:column;gap:0.5rem} }
     </style>
 </head>
 <body>
 
-    <div class="stars-bg" id="starsContainer"></div>
+<div class="stars-bg" id="starsContainer"></div>
 
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo-section">
-                    <div class="logo-text">TKR HACK CONQUEST</div>
-                </div>
-                <nav>
-                    <ul class="nav-links">
-                        <li><a href="index.html#home">Home</a></li>
-                        <li><a href="index.html#about">About</a></li>
-                        <li><a href="./domains.html">Domains</a></li>
-                        <li><a href="index.html#contact">Contact</a></li>
-                    </ul>
-                </nav>
-            </div>
+<header>
+    <div class="container">
+        <div class="header-content">
+            <div class="logo-text">TKR HACK CONQUEST</div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="./domain.html">Domains</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </nav>
         </div>
-    </header>
+    </div>
+</header>
 
-    <section class="main-content">
+<!-- PAGE 1: DOMAINS LIST -->
+<div id="domains-page" class="page active">
+    <section>
         <div class="container">
             <h1 class="section-title">Hackathon Domains</h1>
-            <p class="subtitle">
-                Choose your battlefield — build something groundbreaking in one of these high-impact domains.
-            </p>
-
+            <p class="subtitle">Choose your battlefield — click any domain card to explore all problem statements.</p>
             <div class="domains-grid">
-
-                <div class="domain-card">
+                <div class="domain-card" onclick="showProblems('aiml')">
                     <span class="domain-icon">֎</span>
-                    <h2 class="domain-title">Artificial Intelligence (AI/ML)</h2>
-                    <p class="domain-desc">
-                        AI-integrated applications, intelligent virtual assistants, NLP-powered tools, automated Robotic Process Automation (RPA) bots, generative AI experiences, and more.
-                    </p>
+                    <h2 class="domain-title">Artificial Intelligence (AI/ML) and IOT</h2>
+                    <p class="domain-desc">AI-integrated applications, intelligent virtual assistants, NLP-powered tools, automated RPA bots, generative AI experiences, IoT systems and more.</p>
+                    <p class="card-click-hint">🔍 Click to view 20 Problem Statements →</p>
                 </div>
-
-                <div class="domain-card">
+                <div class="domain-card" onclick="showProblems('sustainability')">
                     <span class="domain-icon">♻️</span>
                     <h2 class="domain-title">Sustainability & Clean Tech</h2>
-                    <p class="domain-desc">
-                        Renewable energy solutions, smart waste management systems, personal & corporate carbon trackers, eco-friendly innovations, circular economy tools.
-                    </p>
+                    <p class="domain-desc">Renewable energy solutions, smart waste management systems, personal & corporate carbon trackers, eco-friendly innovations, circular economy tools.</p>
+                    <p class="card-click-hint">🔍 Click to view 19 Problem Statements →</p>
                 </div>
-
-                <div class="domain-card">
+                <div class="domain-card" onclick="showProblems('fintech')">
                     <span class="domain-icon">💸</span>
                     <h2 class="domain-title">Fintech & Blockchain</h2>
-                    <p class="domain-desc">
-                        Decentralized finance (DeFi), cryptocurrency tools, secure payment systems, transparent financial platforms, blockchain-based identity & asset tracking.
-                    </p>
+                    <p class="domain-desc">Decentralized finance (DeFi), cryptocurrency tools, secure payment systems, transparent financial platforms, blockchain-based identity & asset tracking.</p>
+                    <p class="card-click-hint">🔍 Click to view 18 Problem Statements →</p>
                 </div>
-
-                <div class="domain-card">
+                <div class="domain-card" onclick="showProblems('healthtech')">
                     <span class="domain-icon">🩺</span>
                     <h2 class="domain-title">Healthtech & BioTech</h2>
-                    <p class="domain-desc">
-                        AI-powered diagnostic assistants, remote patient monitoring, health data analytics platforms, wearable health tech, telemedicine innovations.
-                    </p>
+                    <p class="domain-desc">AI-powered diagnostic assistants, remote patient monitoring, health data analytics platforms, wearable health tech, telemedicine innovations.</p>
+                    <p class="card-click-hint">🔍 Click to view 15 Problem Statements →</p>
                 </div>
-
-                <div class="domain-card">
+                <div class="domain-card" onclick="showProblems('smartcities')">
                     <span class="domain-icon">🏙️</span>
                     <h2 class="domain-title">Smart Cities & Infrastructure</h2>
-                    <p class="domain-desc">
-                        IoT-based traffic optimization, smart home automation, energy-efficient public infrastructure, urban welfare & safety solutions.
-                    </p>
+                    <p class="domain-desc">IoT-based traffic optimization, smart home automation, energy-efficient public infrastructure, urban welfare & safety solutions.</p>
+                    <p class="card-click-hint">🔍 Click to view 15 Problem Statements →</p>
                 </div>
-
-                <div class="domain-card">
+                <div class="domain-card" onclick="showProblems('edtech')">
                     <span class="domain-icon">📚</span>
                     <h2 class="domain-title">EdTech & Social Impact</h2>
-                    <p class="domain-desc">
-                        Personalized adaptive learning tools, accessibility technology, inclusive education platforms, community empowerment & social good solutions.
-                    </p>
+                    <p class="domain-desc">Personalized adaptive learning tools, accessibility technology, inclusive education platforms, community empowerment & social good solutions.</p>
+                    <p class="card-click-hint">🔍 Click to view 5 Problem Statements →</p>
                 </div>
-
-                <div class="domain-card">
+                <div class="domain-card" onclick="showProblems('agritech')">
                     <span class="domain-icon">🌱</span>
                     <h2 class="domain-title">AgriTech & Rural Development</h2>
-                    <p class="domain-desc">
-                        Precision farming, AI crop monitoring & disease detection, smart irrigation, supply chain solutions for farmers, rural connectivity innovations.
-                    </p>
+                    <p class="domain-desc">Precision farming, AI crop monitoring & disease detection, smart irrigation, supply chain solutions for farmers, rural connectivity innovations.</p>
+                    <p class="card-click-hint">🔍 Click to view 10 Problem Statements →</p>
                 </div>
-
-                <div class="domain-card">
+                <div class="domain-card" onclick="showProblems('cybersecurity')">
                     <span class="domain-icon">👩🏻‍💻</span>
                     <h2 class="domain-title">Cybersecurity & Defense</h2>
-                    <p class="domain-desc">
-                        Advanced threat detection, data privacy tools, secure communication platforms, drone/robotics applications in surveillance, naval & border security.
-                    </p>
+                    <p class="domain-desc">Advanced threat detection, data privacy tools, secure communication platforms, drone/robotics applications in surveillance, naval & border security.</p>
+                    <p class="card-click-hint">🔍 Click to view 5 Problem Statements →</p>
                 </div>
-                <div class="domain-card">
+                <div class="domain-card" onclick="showProblems('robotics')">
                     <span class="domain-icon">🖥️ ⚙️</span>
                     <h2 class="domain-title">Robotics and IoT</h2>
-                    <p class="domain-desc">
-                        The Robotics and IoT track focuses on building intelligent systems that interact with the real world using sensors, automation, and connectivity.
-                    </p>
+                    <p class="domain-desc">The Robotics and IoT track focuses on building intelligent systems that interact with the real world using sensors, automation, and connectivity.</p>
+                    <p class="card-click-hint">🔍 Click to view 5 Problem Statements →</p>
                 </div>
-
             </div>
 
-            <h2 class="section-title" style="font-size: 2.8rem; margin: 7rem 0 3rem;">Common Sub-themes & Special Tracks</h2>
-
-            <div class="domains-grid" style="margin-bottom: 8rem;">
-                <div class="domain-card">
+            <h2 class="section-title" style="font-size:2.8rem;margin:7rem 0 3rem;">Common Sub-themes & Special Tracks</h2>
+            <div class="domains-grid" style="margin-bottom:8rem;">
+                <div class="domain-card" onclick="showProblems('openinnovation')">
                     <span class="domain-icon">🌐</span>
                     <h2 class="domain-title">Open Innovation</h2>
                     <p class="domain-desc">No restrictions — bring your wildest, most creative ideas to life.</p>
+                    <p class="card-click-hint">🔍 Click to explore →</p>
                 </div>
-
-                <div class="domain-card">
+                <div class="domain-card" onclick="showProblems('womensafety')">
                     <span class="domain-icon">👩‍👧</span>
                     <h2 class="domain-title">Women & Child Safety</h2>
                     <p class="domain-desc">Focused applications enhancing public safety, emergency response & protection for women and children.</p>
+                    <p class="card-click-hint">🔍 Click to view 5 Problem Statements →</p>
                 </div>
-
-                <div class="domain-card">
+                <div class="domain-card" onclick="showProblems('gaming')">
                     <span class="domain-icon">🎮</span>
                     <h2 class="domain-title">Gaming & Entertainment</h2>
                     <p class="domain-desc">Gamification, culturally relevant games, interactive entertainment experiences, AR/VR concepts.</p>
+                    <p class="card-click-hint">🔍 Click to view 14 Problem Statements →</p>
                 </div>
-
-                <div class="domain-card">
+                <div class="domain-card" onclick="showProblems('tourism')">
                     <span class="domain-icon">🗺️</span>
                     <h2 class="domain-title">Tourism</h2>
                     <p class="domain-desc">Tech solutions improving travel experience, local discovery, sustainable tourism, hospitality innovation.</p>
+                    <p class="card-click-hint">🔍 Click to explore →</p>
+                </div>
+                <div class="domain-card" onclick="showProblems('smartedu')">
+                    <span class="domain-icon">🎓</span>
+                    <h2 class="domain-title">Smart Education</h2>
+                    <p class="domain-desc">Data-driven, personalized and adaptive education systems that transform learning at scale using technology.</p>
+                    <p class="card-click-hint">🔍 Click to view 47 Problem Statements →</p>
                 </div>
             </div>
 
-            <div style="text-align: center;">
+            <div style="text-align:center;">
                 <a href="index.html" class="back-btn">← Back to Home</a>
             </div>
-
         </div>
     </section>
+</div>
 
-    <footer>
+<!-- PAGE 2: PROBLEM STATEMENTS -->
+<div id="problems-page" class="page">
+    <section>
         <div class="container">
-            <h3 style="font-family: 'Orbitron', sans-serif; color: var(--primary); margin-bottom: 1rem;">
-                TKR Hack Conquest 2.0
-            </h3>
-            <p>Organized by IEEE Student Branch, TKRCET</p>
-            <p style="margin-top: 2rem; opacity: 0.7;">
-                © 2026 TKR College of Engineering and Technology. All rights reserved.
-            </p>
+            <div class="ps-header">
+                <span class="ps-domain-icon" id="ps-icon"></span>
+                <h1 class="ps-title" id="ps-domain-name"></h1>
+                <p class="ps-subtitle" id="ps-domain-desc"></p>
+                <span class="ps-count-badge" id="ps-count-badge"></span>
+            </div>
+            <div class="problems-list" id="problems-container"></div>
+            <div class="nav-actions">
+                <button class="back-btn" onclick="showDomainsPage()">← Back to Domains</button>
+                <a href="index.html" class="outline-btn">🏠 Home</a>
+            </div>
         </div>
-    </footer>
+    </section>
+</div>
 
-    <script>
-        // Stars background (same as index.html)
-        function createStars() {
-            const container = document.getElementById('starsContainer');
-            const numberOfStars = 100;
-            for (let i = 0; i < numberOfStars; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                const size = Math.random() * 2.5 + 0.5;
-                star.style.width = size + 'px';
-                star.style.height = size + 'px';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 5 + 's';
-                container.appendChild(star);
-            }
-        }
+<footer>
+    <div class="container">
+        <h3 style="font-family:'Orbitron',sans-serif;color:var(--primary);margin-bottom:1rem;">TKR Hack Conquest 2.0</h3>
+        <p>Organized by IEEE Student Branch, TKRCET</p>
+        <p style="margin-top:2rem;opacity:0.7;">© 2026 TKR College of Engineering and Technology. All rights reserved.</p>
+    </div>
+</footer>
 
-        window.addEventListener('load', () => {
-            createStars();
-        });
-    </script>
+<script>
+const domainData = {
 
+  aiml: {
+    icon: "֎",
+    title: "Artificial Intelligence (AI/ML) and IOT",
+    desc: "AI-integrated applications, NLP tools, predictive models, IoT systems, and intelligent automation solutions.",
+    problems: [
+      {
+        title: "Delayed Detection of Emerging Disease Patterns",
+        desc: `Healthcare systems collect large volumes of patient data, but patterns indicating early disease outbreaks often remain unnoticed until hospitals report a surge in confirmed cases. By the time authorities recognize a cluster, infections may have already spread widely across communities.
+
+There is a need for intelligent systems that can analyze multi-source health data to detect early warning signals of emerging disease patterns.`
+      },
+      {
+        title: "Inefficient Traffic Flow Optimization in Urban Areas",
+        desc: `Urban traffic congestion continues to increase due to population growth, private vehicle usage, and static signal timing systems. Traffic management authorities rely on historical data rather than real-time predictive modeling, leading to inefficient road usage.
+
+There is a need for AI-driven traffic optimization systems that dynamically adjust signal timing and route planning based on real-time conditions.`
+      },
+      {
+        title: "Limited Predictive Maintenance for Railway Infrastructure",
+        desc: `Railway tracks, signaling systems, and rolling stock are inspected periodically, but minor defects may remain undetected between inspection cycles. Unexpected failures can disrupt services and pose safety risks.
+
+There is a need for predictive maintenance models that can identify infrastructure stress patterns before breakdown occurs.`
+      },
+      {
+        title: "Crop Yield Variability Due to Unpredictable Climate Conditions",
+        desc: `Farmers face inconsistent crop output due to changing rainfall, temperature shifts, and pest attacks. Existing advisory systems are not always localized or data-driven.
+
+There is a need for AI-based crop prediction systems that integrate climate, soil, and historical data to support informed farming decisions.`
+      },
+      {
+        title: "Fraudulent Transactions in Digital Payment Systems",
+        desc: `As digital payments grow rapidly, fraudulent activities such as phishing, identity misuse, and unauthorized transactions are increasing. Traditional rule-based fraud detection struggles to adapt to evolving scam patterns.
+
+There is a need for adaptive AI-based fraud detection systems that can identify abnormal transaction behavior in real time.`
+      },
+      {
+        title: "Limited Early Identification of Academic Dropout Risk",
+        desc: `Students often show gradual decline in attendance and performance before dropping out. Schools or colleges may not have structured tools to analyze these early warning indicators.
+
+There is a need for predictive models that identify dropout risk and support timely intervention.`
+      },
+      {
+        title: "Inefficient Energy Demand Forecasting in Urban Grids",
+        desc: `Electricity demand fluctuates across seasons and regions, but forecasting models may not account for micro-level usage variations. Unexpected demand spikes can cause outages and grid stress.
+
+There is a need for intelligent forecasting systems that can improve load balancing and energy planning.`
+      },
+      {
+        title: "Rising Urban Crime Without Predictive Risk Mapping",
+        desc: `In many cities, certain neighborhoods repeatedly experience crimes such as theft, vandalism, and assaults, but these areas are usually identified only after several incidents occur. Police systems mainly respond to reported crimes rather than anticipating where crimes are likely to happen. Although crime data is collected, it is rarely analyzed to identify patterns such as high-risk locations and peak crime times. As a result, preventive policing and resource deployment may not match actual risk levels. This allows crimes to continue in vulnerable areas.
+
+There is a need for systems that can analyze crime patterns and help authorities take preventive action.`
+      },
+      {
+        title: "Delayed Identification of Forest Fire Risk Zones",
+        desc: `Environmental conditions such as high temperature and dry vegetation increase fire risk, but detection often occurs only after ignition. Early risk signals remain unmonitored in many regions.
+
+There is a need for predictive fire-risk mapping systems that integrate climate and vegetation data.`
+      },
+      {
+        title: "Inefficient Public Grievance Data Analysis",
+        desc: `Government departments receive thousands of citizen complaints daily. Without intelligent categorization and pattern detection, systemic issues may remain hidden.
+
+There is a need for AI-based grievance analytics systems that identify recurring service failures.`
+      },
+      {
+        title: "Inaccurate Demand Forecasting for Public Transportation",
+        desc: `Public transport systems often operate on fixed schedules that do not reflect real-time passenger demand. During peak hours, buses and trains become overcrowded, while during off-peak hours resources may be underutilized. Transport authorities rely on static historical data rather than predictive passenger flow modeling.
+
+There is a need for intelligent demand forecasting systems that optimize fleet allocation and scheduling dynamically.`
+      },
+      {
+        title: "Limited Early Warning for Landslide-Prone Regions",
+        desc: `Hilly and mountainous areas are vulnerable to landslides, particularly during heavy rainfall. Monitoring is often reactive and based on visual inspection after soil movement begins. Early environmental indicators such as soil moisture, slope instability, and rainfall intensity are rarely analyzed together.
+
+There is a need for AI-driven landslide risk assessment systems that can predict vulnerable zones before disasters occur.`
+      },
+      {
+        title: "Weak Prediction of Industrial Equipment Failures",
+        desc: `Manufacturing units usually maintain machines based on fixed maintenance schedules, but equipment can still fail unexpectedly between inspections. When machines suddenly break down, production stops, deadlines are missed, and repair costs increase. These unexpected failures reduce overall productivity and affect business operations. Most industries collect machine operation data such as temperature, vibration, and running time, but this data is not always used to identify early warning signs of failure.
+
+There is a need for systems that can analyze machine performance data and detect signs of mechanical problems in advance so that maintenance can be done before breakdown occurs.`
+      },
+      {
+        title: "Inefficient Identification of Duplicate Welfare Beneficiaries",
+        desc: `Government welfare programs support millions of beneficiaries, but managing such large datasets often leads to errors such as duplicate records, incorrect details, or fake entries. These data inconsistencies can result in misuse or leakage of public funds, preventing benefits from reaching the right people. Manual verification of beneficiary records is time-consuming and may not detect all errors or duplications effectively. As the number of beneficiaries increases, maintaining accurate records becomes more challenging.
+
+There is a need for intelligent systems that can automatically compare and analyze beneficiary data to identify duplicate or suspicious records and improve transparency.`
+      },
+      {
+        title: "Poor Air Quality Risk Forecasting in Urban Micro-Zones",
+        desc: `Air pollution levels are usually reported as an average for the whole city, which hides areas where pollution is much higher, such as near factories or busy highways. People living in these locations may be exposed to unhealthy air without knowing the actual risk. Current systems often do not provide detailed, location-specific pollution information. This makes it difficult for residents to take precautions in time.
+
+There is a need for systems that can predict air pollution levels in specific areas and provide timely local alerts.`
+      },
+      {
+        title: "Inconsistent Water Leakage Detection in Urban Pipelines",
+        desc: `Underground water pipelines experience leaks that go undetected for long periods, resulting in water loss and infrastructure damage. Manual inspections are costly and inefficient.
+
+There is a need for anomaly detection systems that analyze pressure and flow data to identify hidden leaks early.`
+      },
+      {
+        title: "Limited Early Detection of Financial Distress in MSMEs",
+        desc: `Small and medium enterprises (SMEs) often face financial difficulties gradually before reaching a stage where the business may fail. Early signs such as declining sales, delayed payments, or increasing debts may not be detected by traditional credit monitoring systems. As a result, financial problems are noticed only when the situation becomes serious. This can lead to business closures and job losses.
+
+There is a need for systems that can analyze financial data and identify early warning signs of financial stress so that timely action can be taken.`
+      },
+      {
+        title: "Inefficient Monitoring of Agricultural Pest Outbreaks",
+        desc: `Pest infestations spread rapidly across crops, but detection often occurs after visible damage. Farmers lack access to predictive pest monitoring tools.
+
+There is a need for AI-based pest risk prediction systems that integrate weather, crop stage, and historical infestation data.`
+      },
+      {
+        title: "Limited Pattern Recognition in Cyberattack Detection",
+        desc: `Cyber attacks are becoming more advanced and change frequently, making it difficult for traditional security systems to detect new types of threats. Unusual activities in network traffic may go unnoticed until serious damage has already occurred. Many organizations rely on fixed security rules that cannot easily adapt to new attack methods. This increases the risk of data breaches and system failures.
+
+There is a need for intelligent cybersecurity systems that can learn from network activity and detect new threats early.`
+      },
+      {
+        title: "Weak Early Warning for Urban Flooding",
+        desc: `Urban flooding is usually noticed only after roads and low-lying areas become waterlogged. Information about rainfall, drainage capacity, and ground elevation is often not analyzed together in real time. Because of this, authorities may not know which areas are at risk until flooding has already started. This leads to traffic disruption, property damage, and safety risks for residents.
+
+There is a need for systems that can predict flood-prone areas in advance and help authorities take preventive measures.`
+      }
+    ]
+  },
+
+  sustainability: {
+    icon: "♻️",
+    title: "Sustainability & Clean Tech",
+    desc: "Renewable energy solutions, smart waste management systems, personal & corporate carbon trackers, eco-friendly innovations, circular economy tools.",
+    problems: [
+      {
+        title: "Poor Solid Waste Segregation at Source",
+        desc: `Many households and businesses do not properly separate waste into biodegradable, recyclable, and hazardous categories. When waste is mixed together, it becomes difficult to recycle and more waste ends up in landfills. Improper segregation also causes environmental pollution and increases waste management costs. Municipal authorities often find it difficult to monitor segregation practices at the source.
+
+There is a need for systems that can track and encourage proper waste segregation and improve waste management efficiency.`
+      },
+      {
+        title: "Increasing Urban Heat Island Effect",
+        desc: `Rapid urban development and reduction of trees and green spaces have caused some parts of cities to become much hotter than nearby rural areas. These higher temperatures create heat stress for people, increase electricity use for cooling, and make living conditions uncomfortable. Many cities do not have clear information about which areas are most affected by heat. Without proper data, planning effective cooling and green initiatives becomes difficult.
+
+There is a need for systems that can identify urban heat hotspot areas and support better climate-resilient city planning.`
+      },
+      {
+        title: "Inefficient Monitoring of River Pollution",
+        desc: `Industrial discharge, untreated sewage, and solid waste dumping continue to contaminate rivers. Periodic water testing does not always capture real-time pollution spikes.
+
+There is a need for continuous monitoring systems that detect contamination trends and support timely intervention.`
+      },
+      {
+        title: "Rising Groundwater Depletion in Semi-Urban Areas",
+        desc: `Excessive use of groundwater for household needs and farming has caused water levels underground to decline in many areas. People often realize the seriousness of the problem only when wells and borewells start drying up. Lack of proper monitoring makes it difficult to understand how fast groundwater is being depleted. This can lead to long-term water shortages and affect agriculture and daily life.
+
+There is a need for systems that can predict groundwater stress early and help promote sustainable use of water resources.`
+      },
+      {
+        title: "Poor Adoption of Renewable Energy in Public Institutions",
+        desc: `Even though the government provides incentives for renewable energy, many public buildings still depend mainly on conventional electricity sources. One reason is the lack of clear information about how suitable renewable options like solar energy are for specific locations. Institutions often do not have proper studies showing costs, savings, and long-term benefits. This slows down the adoption of clean energy solutions.
+
+There is a need for tools that can assess renewable energy potential and help institutions plan a smooth transition to sustainable energy.`
+      },
+      {
+        title: "Crop Residue Burning and Air Pollution",
+        desc: `Seasonal burning of crop residue by farmers is a major cause of air pollution in many regions, especially after harvest seasons. Farmers often burn crop waste because it is the quickest and cheapest way to clear fields for the next crop. Many farmers do not have easy access to affordable alternatives for managing crop residue. This practice increases air pollution and affects public health in nearby areas.
+
+There is a need for systems that can monitor residue burning and support farmers with practical alternatives while protecting their livelihoods.`
+      },
+      {
+        title: "Coastal Erosion Affecting Communities and Infrastructure",
+        desc: `Coastal areas are facing increasing land loss due to rising sea levels, strong storms, and human activities such as construction and sand removal. Over time, this erosion can damage homes, roads, and local ecosystems. However, regular and accurate monitoring of shoreline changes is often limited or inconsistent. Without proper data, it is difficult for authorities to plan effective protection measures.
+
+There is a need for systems that can track coastal erosion and help plan long-term solutions for vulnerable coastal regions.`
+      },
+      {
+        title: "Poor Energy Efficiency in Government Buildings",
+        desc: `Many government buildings still use old lighting and cooling systems that consume more electricity than necessary. Because energy usage is not regularly monitored, inefficient equipment may continue to operate without being noticed. This leads to higher electricity costs and unnecessary energy waste. Authorities often lack clear information about where energy is being used inefficiently.
+
+There is a need for systems that monitor energy usage and help optimize consumption in public buildings.`
+      },
+      {
+        title: "Illegal Sand Mining in Riverbeds",
+        desc: `Illegal and unregulated sand mining from rivers can damage river ecosystems and weaken nearby structures such as bridges and embankments. These activities often take place in remote areas where regular monitoring is difficult. As a result, illegal mining may continue for long periods without being detected.
+
+This can lead to environmental damage and safety risks. There is a need for systems that can monitor river areas and detect illegal sand mining activities in real time.`
+      },
+      {
+        title: "Increasing Land Degradation in Agricultural Regions",
+        desc: `Soil fertility declines due to excessive chemical use and poor land management practices. Land degradation progresses gradually and may not be detected early.
+
+There is a need for monitoring systems that assess soil health trends and support sustainable farming practices.`
+      },
+      {
+        title: "Inadequate Sewage Treatment in Urban Areas",
+        desc: `Many cities release untreated or partially treated sewage into rivers and lakes because existing treatment plants do not have enough capacity. During heavy rainfall, sewage systems may overflow and increase water contamination. This pollution affects water quality, aquatic life, and public health. Monitoring sewage flow and treatment performance is often limited.
+
+There is a need for systems that can track sewage movement and treatment efficiency to reduce environmental impact.`
+      },
+      {
+        title: "Increasing Plastic Waste in Coastal Areas",
+        desc: `Plastic waste is increasingly accumulating along coastal areas, harming marine life and affecting the cleanliness and attractiveness of beaches. This pollution can also impact fishing activities and tourism in coastal regions. Monitoring of plastic waste is often irregular, and cleanup efforts may not be well coordinated. As a result, some areas continue to remain heavily polluted.
+
+There is a need for systems that can track plastic waste accumulation and help plan targeted cleanup activities.`
+      },
+      {
+        title: "Water Wastage in Irrigation Systems",
+        desc: `Traditional irrigation practices often use more water than required. Over-irrigation reduces water availability and affects long-term sustainability.
+
+There is a need for systems that monitor soil moisture and optimize irrigation scheduling.`
+      },
+      {
+        title: "Limited Tracking of Industrial Carbon Emissions",
+        desc: `Industries are major contributors to greenhouse gas emissions, which play a significant role in climate change. In many cases, monitoring and reporting of these emissions are not done in real time and may lack transparency. Without accurate and timely information, it becomes difficult for authorities to assess environmental impact and enforce regulations. This can lead to unchecked increases in pollution.
+
+There is a need for systems that can continuously track industrial emissions and support better environmental accountability.`
+      },
+      {
+        title: "Underutilization of Waste-to-Energy Potential",
+        desc: `Large amounts of organic waste are generated in cities from households, markets, and restaurants, and this waste can be converted into biogas or energy. However, poor collection systems and lack of coordination between waste generators and processing plants reduce the amount of waste that can be utilized. Much of the organic waste ends up in landfills instead of being used productively. This leads to wasted resources and environmental problems.
+
+There is a need for systems that can monitor organic waste collection and improve the efficiency of waste-to-energy operations.`
+      },
+      {
+        title: "Floodplain Encroachment in Expanding Cities",
+        desc: `In many cities, buildings and roads are constructed in low-lying areas near rivers and drainage channels where floodwater naturally spreads during heavy rains. This increases the risk of flooding and damage to property. Monitoring of such constructions is often irregular, making prevention difficult.
+
+There is a need for systems that can identify unsafe construction in flood-prone areas and support better urban planning.`
+      },
+      {
+        title: "Inefficient Urban Water Recycling",
+        desc: `Greywater and treated wastewater from households and buildings can be reused for purposes such as gardening, cleaning, and irrigation, but reuse is still limited in many cities. Many people are not aware of safe water recycling practices, and proper monitoring systems are often lacking. As a result, large amounts of reusable water are wasted instead of being used efficiently. This increases pressure on freshwater resources.
+
+There is a need for systems that can promote water recycling and track how effectively reused water is being utilized.`
+      },
+      {
+        title: "Declining Urban Tree Cover",
+        desc: `Rapid construction of roads, buildings, and other infrastructure often leads to the removal of trees and reduction of green spaces in cities. Loss of tree cover increases local temperatures and reduces the natural ability of trees to absorb air pollutants. Over time, this affects environmental quality and public health. Many cities do not have accurate or updated information about how much tree cover is being lost.
+
+There is a need for systems that can monitor urban tree cover and support better conservation and planning efforts.`
+      },
+      {
+        title: "Limited Awareness of Household Energy Conservation",
+        desc: `Many households do not have a clear understanding of how much electricity they use for different activities such as lighting, cooling, and appliances. Without detailed information, it becomes difficult for people to identify where energy is being wasted. Most consumers only see their total electricity bill without knowing usage patterns. This limits efforts to reduce energy consumption and save costs.
+
+There is a need for systems that provide clear and useful insights into household energy usage and help people use electricity more efficiently.`
+      }
+    ]
+  },
+
+  fintech: {
+    icon: "💸",
+    title: "Fintech & Blockchain",
+    desc: "Decentralized finance (DeFi), cryptocurrency tools, secure payment systems, transparent financial platforms, blockchain-based identity & asset tracking.",
+    problems: [
+      {
+        title: "Rising Digital Payment Fraud Among First-Time Users",
+        desc: `As digital payments become more common in rural and semi-urban areas, many first-time users are exposed to scams such as phishing links, fake customer care calls, and fraudulent QR codes. People with limited awareness of digital safety often share sensitive information or make payments without realizing the risk. In many cases, fraud is reported only after money has already been lost. This creates financial stress and reduces trust in digital payment systems.
+
+There is a need for intelligent systems that can detect suspicious transactions and protect users from digital payment fraud in real time.`
+      },
+      {
+        title: "Limited Credit Access for Informal Sector Workers",
+        desc: `Many workers in the informal sector do not have a formal credit history because their income is not recorded through banks or official documents. As a result, they often face difficulties in getting loans or other financial services from banks. Traditional credit scoring methods mainly depend on salary records and past loan history, which many informal workers do not have. This limits their access to financial support for business or personal needs.
+
+There is a need for systems that can assess creditworthiness using alternative financial indicators and help improve financial inclusion.`
+      },
+      {
+        title: "Delayed Settlement of Payments to Small Vendors",
+        desc: `Small vendors and MSMEs often face long delays in receiving payments from larger clients or government contracts. Delayed cash flow affects business sustainability and employment stability.
+
+There is a need for transparent payment tracking systems that monitor settlement timelines and flag excessive delays.`
+      },
+      {
+        title: "Duplicate Beneficiary Records in Welfare Programs",
+        desc: `Large government welfare schemes maintain databases with millions of beneficiary records, but errors in data entry or record management can lead to duplicate or fake entries. These inconsistencies may result in benefits being distributed to ineligible or non-existent beneficiaries. Manual verification of such large datasets is slow and often unable to detect all errors. This affects the efficient use of public funds.
+
+There is a need for secure systems that can automatically validate beneficiary data and detect duplicate or suspicious records to improve accuracy.`
+      },
+      {
+        title: "Weak Traceability in Agricultural Supply Chains",
+        desc: `Farm produce often passes through multiple intermediaries, reducing transparency regarding origin and quality. Lack of traceability increases the risk of adulteration and price manipulation.
+
+There is a need for blockchain-based tracking systems that ensure end-to-end transparency from farm to consumer.`
+      },
+      {
+        title: "Limited Insurance Coverage in Vulnerable Communities",
+        desc: `Although various insurance schemes are available, many rural households remain uninsured because people are not fully aware of these schemes or find the enrollment process complicated. Lack of clear information and support makes it difficult for families to register and maintain insurance coverage. During health emergencies, crop losses, or accidents, this leaves households financially vulnerable. Many families have to depend on savings or loans to manage unexpected expenses.
+
+There is a need for simple and accessible systems that improve awareness and make insurance enrollment easier for rural communities.`
+      },
+      {
+        title: "Growth of Unregulated Digital Lending Platforms",
+        desc: `Unauthorized loan apps often attract users by offering quick and easy loans but may charge hidden fees and misuse personal data such as contacts and identity details. Many users do not realize the risks until they face harassment for repayments or suffer financial losses. These apps operate online and can be difficult for authorities to track and regulate. Lack of awareness makes people more vulnerable to such fraud.
+
+There is a need for systems that can identify suspicious lending platforms and help protect users from fraudulent loan services.`
+      },
+      {
+        title: "Lack of Transparency in Public Procurement Payments",
+        desc: `Government procurement processes involve large financial transactions between departments, vendors, and contractors. Tracking how payments are processed and ensuring that rules are followed can be complicated due to multiple stages and records. Lack of transparency may lead to delays, errors, or misuse of funds. Monitoring procurement activities manually is difficult and time-consuming.
+
+There is a need for secure systems that improve transparency and accountability in public procurement processes.`
+      },
+      {
+        title: "Financial Literacy Gaps Among Youth",
+        desc: `Many young people have limited understanding of basic financial concepts such as interest rates, savings, investments, and budgeting. Without proper knowledge, they may make poor financial decisions or fall victim to financial scams. Lack of financial awareness can lead to unnecessary debt and financial stress in the future. Schools and colleges often do not provide practical financial education.
+
+There is a need for digital tools that can improve financial literacy and help young people develop responsible financial habits.`
+      },
+      {
+        title: "Limited Monitoring of Microfinance Loan Defaults",
+        desc: `Microfinance institutions give small loans to many people, especially in rural and low-income areas. Some borrowers may start having difficulty repaying their loans due to income loss, crop failure, or personal problems, but these early signs are often not noticed. Usually, problems are identified only after several payments are missed. This increases the chances of loan defaults and financial stress for borrowers.
+
+There is a need for systems that can track repayment behavior and identify borrowers who may face repayment difficulties at an early stage.`
+      },
+      {
+        title: "Cross-Border Remittance Delays and High Costs",
+        desc: `Migrant workers sending money home face high transaction costs and delays. Intermediary systems increase complexity.
+
+There is a need for secure, low-cost remittance tracking and optimization platforms.`
+      },
+      {
+        title: "Identity Theft in Digital Financial Platforms",
+        desc: `Stolen or misused identity details such as Aadhaar numbers, bank information, or login credentials can be used to open fake accounts or access financial services without the owner's knowledge. Many people become aware of the misuse only after money is lost or unauthorized transactions occur. Current systems may not detect unusual account activity at an early stage. This increases the risk of financial fraud and identity theft.
+
+There is a need for secure systems that can monitor identity usage and detect suspicious activity early.`
+      },
+      {
+        title: "Lack of Unified Financial Dashboard for Small Businesses",
+        desc: `Small business owners often use multiple bank accounts and digital platforms to manage their finances. Because financial information is spread across different systems, it becomes difficult to get a clear overall picture of income and expenses. This lack of consolidated information makes financial planning and tax filing more complicated. Errors or missed records can affect business decisions and compliance.
+
+There is a need for integrated tools that bring financial data together and help small businesses manage their finances more effectively.`
+      },
+      {
+        title: "Inefficient Monitoring of CSR Fund Utilization",
+        desc: `Corporate Social Responsibility (CSR) funds are provided by companies to support social and development projects such as education, healthcare, and community welfare. However, tracking how these funds are actually used and what impact they create is often not very transparent. It can be difficult to verify whether the money has reached the intended projects and beneficiaries. Limited monitoring reduces accountability and trust.
+
+There is a need for secure systems that can track CSR fund utilization and measure project impact more transparently.`
+      },
+      {
+        title: "Fraudulent Investment Schemes Targeting Rural Populations",
+        desc: `Fraudulent investment schemes that promise unusually high returns often target people with limited financial awareness. Many individuals invest their savings believing these schemes are genuine and only realize the fraud after losing their money. Information about suspicious schemes does not always reach communities in time. This makes people more vulnerable to financial scams.
+
+There is a need for systems that can identify and warn people about suspicious investment schemes at an early stage.`
+      },
+      {
+        title: "Weak Security in Digital Cooperative Banking Systems",
+        desc: `Many cooperative banks in rural areas use basic digital systems that may not have strong cybersecurity protections. This makes them more vulnerable to hacking, data theft, or unauthorized transactions. If a security breach occurs, depositors' money and personal information could be at risk. Smaller banks may also lack tools to detect suspicious activities early.
+
+There is a need for secure digital banking systems that can protect customer data and identify unusual transactions quickly.`
+      },
+      {
+        title: "Limited Transparency in Charity and Donation Platforms",
+        desc: `People who donate money to charities or social causes often do not know exactly how their funds are used. Lack of clear information about spending and outcomes can reduce trust in donation platforms and organizations. This uncertainty may discourage people from contributing in the future. Proper tracking and reporting of donations is often limited or unclear.
+
+There is a need for transparent systems that allow donors to see how their contributions are used and ensure accountability.`
+      },
+      {
+        title: "Lack of Credit Monitoring for Students with Education Loans",
+        desc: `Students who take education loans for higher studies often do not receive proper guidance on managing repayments after graduation. Many may struggle to repay loans on time due to delayed employment or financial difficulties. Late or missed payments can negatively affect their credit history and future borrowing ability. Students may not always be aware of repayment schedules and financial planning options.
+
+There is a need for systems that can monitor repayment progress and provide guidance to help students manage their education loans responsibly.`
+      }
+    ]
+  },
+
+  healthtech: {
+    icon: "🩺",
+    title: "Healthtech & BioTech",
+    desc: "AI-powered diagnostic assistants, remote patient monitoring, health data analytics platforms, wearable health tech, telemedicine innovations.",
+    problems: [
+      {
+        title: "Delayed Identification of High-Risk Pregnancies",
+        desc: `In many regions, pregnant women do not receive consistent monitoring for anemia, hypertension, or gestational diabetes. Complications are often detected only during emergencies.
+
+There is a need for systems that track maternal health indicators continuously and identify high-risk cases early.`
+      },
+      {
+        title: "Inadequate Monitoring of Child Growth and Nutrition",
+        desc: `Growth measurements are recorded in health centers, but deviations from healthy growth patterns may not be analyzed systematically. Early malnutrition often goes unnoticed.
+
+There is a need for monitoring systems that detect early growth abnormalities and enable timely nutritional intervention.`
+      },
+      {
+        title: "Limited Access to Telemedicine in Remote Areas",
+        desc: `Rural communities often travel long distances for medical consultations. Telemedicine adoption remains inconsistent due to infrastructure gaps.
+
+There is a need for scalable telehealth platforms that connect patients with healthcare providers efficiently.`
+      },
+      {
+        title: "Poor Tracking of Chronic Disease Follow-Ups",
+        desc: `Patients with diabetes, hypertension, or heart conditions often miss scheduled follow-ups. Lack of continuity in care increases complications.
+
+There is a need for digital systems that monitor treatment adherence and follow-up compliance.`
+      },
+      {
+        title: "Rising Mental Health Concerns Among Youth",
+        desc: `Students and young professionals face increasing stress and anxiety. Access to mental health counselling remains limited in many institutions.
+
+There is a need for digital mental health support systems that enable early detection and confidential counselling access.`
+      },
+      {
+        title: "Delayed Detection of Hospital-Acquired Infections",
+        desc: `Infections acquired during hospital stays increase recovery time and costs. Monitoring infection trends is often manual.
+
+There is a need for systems that detect infection clusters early within healthcare facilities.`
+      },
+      {
+        title: "Poor Biomedical Waste Management in Small Clinics",
+        desc: `Small healthcare centers may not follow strict biomedical waste disposal guidelines. Improper disposal risks environmental contamination.
+
+There is a need for monitoring systems that track biomedical waste handling and compliance.`
+      },
+      {
+        title: "Limited Monitoring of Vector-Borne Disease Spread",
+        desc: `Dengue and malaria cases often cluster in specific neighborhoods. Detection typically occurs after case numbers rise.
+
+There is a need for systems that identify vector-borne disease risk patterns early.`
+      },
+      {
+        title: "Weak Occupational Health Monitoring in Informal Sectors",
+        desc: `Workers in construction and manufacturing face exposure to dust, chemicals, and heat. Health risks accumulate gradually and may go unreported.
+
+There is a need for monitoring systems that detect occupational health exposure risks early.`
+      },
+      {
+        title: "Delayed Identification of Lifestyle Disease Risk in Urban Populations",
+        desc: `Obesity, hypertension, and diabetes are rising among urban residents. Preventive screening is not always systematic.
+
+There is a need for systems that assess lifestyle risk factors and promote preventive health behavior.`
+      },
+      {
+        title: "Inefficient Blood Bank Inventory Management",
+        desc: `Blood banks must maintain optimal inventory across blood types. Shortages and wastage occur due to weak coordination.
+
+There is a need for real-time blood inventory monitoring systems that optimize supply and distribution.`
+      },
+      {
+        title: "Limited Monitoring of Mental Health in Rural Communities",
+        desc: `Rural populations have limited access to trained psychologists. Mental health symptoms often remain unreported.
+
+There is a need for accessible screening and referral systems that strengthen rural mental healthcare access.`
+      },
+      {
+        title: "Weak Monitoring of Antibiotic Misuse",
+        desc: `Antibiotics are often used without proper prescription or treatment completion. Overuse contributes to antibiotic resistance, which is a growing global health threat.
+
+There is a need for systems that can track antibiotic usage patterns and support responsible prescribing practices.`
+      },
+      {
+        title: "Poor Detection of Health Risks Due to Indoor Air Pollution",
+        desc: `Indoor air pollution caused by cooking smoke, poor ventilation, or chemical exposure affects respiratory health, especially in children and elderly people. Most air quality monitoring focuses on outdoor pollution, while indoor environments remain unmonitored.
+
+There is a need for systems that can monitor indoor air quality and identify health risks inside homes.`
+      },
+      {
+        title: "Poor Monitoring of Adverse Drug Reactions",
+        desc: `Patients sometimes experience side effects from medicines, but these reactions are not always reported or recorded systematically. Important safety patterns may remain unnoticed.
+
+There is a need for systems that can track and analyze adverse drug reactions to improve medication safety.`
+      }
+    ]
+  },
+
+  smartcities: {
+    icon: "🏙️",
+    title: "Smart Cities & Infrastructure",
+    desc: "IoT-based traffic optimization, smart home automation, energy-efficient public infrastructure, urban welfare & safety solutions.",
+    problems: [
+      {
+        title: "Persistent Traffic Congestion in Urban Corridors",
+        desc: `Rapid urban growth has increased vehicle density beyond planned road capacity. Static signal systems and poor route optimization contribute to prolonged congestion. This results in fuel wastage, air pollution, and productivity loss.
+
+There is a need for intelligent traffic management systems that dynamically optimize flow and reduce congestion.`
+      },
+      {
+        title: "Poor Maintenance of Urban Roads",
+        desc: `Potholes and surface cracks develop gradually but are often repaired only after severe damage. Delayed maintenance increases repair costs and accident risk.
+
+There is a need for monitoring systems that detect early road deterioration and enable preventive maintenance.`
+      },
+      {
+        title: "Unequal Distribution of Drinking Water Supply",
+        desc: `Certain urban neighborhoods receive irregular or low-pressure water supply. Infrastructure leakages and unauthorized connections worsen inequality.
+
+There is a need for systems that monitor distribution patterns and ensure equitable water access.`
+      },
+      {
+        title: "Inefficient Public Transport Fleet Management",
+        desc: `Public buses may operate with inconsistent schedules and underutilized routes. Passengers lack reliable information about arrival times.
+
+There is a need for integrated fleet monitoring systems that improve scheduling and commuter experience.`
+      },
+      {
+        title: "Inadequate Monitoring of Urban Drainage Systems",
+        desc: `Blocked drains and encroachments increase flood risk during heavy rainfall. Maintenance often occurs only after complaints.
+
+There is a need for drainage monitoring systems that detect blockage risks early.`
+      },
+      {
+        title: "Lack of Smart Street Lighting Management",
+        desc: `Streetlights may remain non-functional for extended periods. Manual reporting delays repairs.
+
+There is a need for automated monitoring systems that detect malfunctioning lighting infrastructure.`
+      },
+      {
+        title: "Poor Solid Waste Collection Route Planning",
+        desc: `Collection routes may not reflect real-time waste accumulation patterns. Overflowing bins create sanitation hazards.
+
+There is a need for optimized route planning systems that improve waste collection efficiency.`
+      },
+      {
+        title: "Limited Monitoring of Public Space Utilization",
+        desc: `Parks, community halls, and public facilities are often underutilized due to poor visibility. Lack of usage data affects planning decisions.
+
+There is a need for systems that track public facility usage patterns and improve accessibility.`
+      },
+      {
+        title: "Aging Bridge Infrastructure Without Continuous Monitoring",
+        desc: `Bridges experience structural fatigue over time. Periodic inspections may not detect early stress indicators.
+
+There is a need for structural health monitoring systems that assess real-time stress levels.`
+      },
+      {
+        title: "Weak Monitoring of Construction Compliance",
+        desc: `Unauthorized construction strains infrastructure capacity. Detection is often delayed until completion.
+
+There is a need for monitoring systems that identify violations early.`
+      },
+      {
+        title: "Overcrowding in Urban Transit Systems",
+        desc: `Metro and bus systems face high passenger density during peak hours. Overcrowding affects safety and comfort.
+
+There is a need for passenger flow analytics systems that improve route planning.`
+      },
+      {
+        title: "Delayed Emergency Response Coordination in Cities",
+        desc: `Police, fire, and ambulance services may lack shared real-time coordination tools. Response time may increase during peak congestion.
+
+There is a need for integrated emergency management systems.`
+      },
+      {
+        title: "Poor Parking Management in Commercial Zones",
+        desc: `Unregulated parking increases congestion. Manual enforcement is inefficient.
+
+There is a need for smart parking management systems.`
+      },
+      {
+        title: "Limited EV Charging Infrastructure Mapping",
+        desc: `Electric vehicle adoption is rising. Charging station placement may not align with demand.
+
+There is a need for demand-based EV infrastructure planning systems.`
+      },
+      {
+        title: "Inefficient Monitoring of Urban Air Pollution Sources",
+        desc: `Pollution sources such as construction sites and industries are not always monitored in real time.
+
+There is a need for emission tracking systems.`
+      }
+    ]
+  },
+
+  edtech: {
+    icon: "📚",
+    title: "EdTech & Social Impact",
+    desc: "Personalized adaptive learning tools, accessibility technology, inclusive education platforms, community empowerment & social good solutions.",
+    problems: [
+      {
+        title: "Poor Monitoring of Mid-Day Meal Quality and Nutrition",
+        desc: `The mid-day meal scheme supports millions of students, yet food quality, hygiene standards, and nutritional consistency vary widely across schools. Inspections are periodic and not continuous.
+
+There is a need for monitoring systems that ensure transparency and accountability in meal quality and nutritional compliance.`
+      },
+      {
+        title: "Language Barriers Affecting Learning Outcomes",
+        desc: `Students in multilingual regions may be taught in a language different from their home language, affecting comprehension and retention. Assessment tools rarely account for linguistic disadvantage.
+
+There is a need for adaptive learning support systems that bridge language gaps and improve conceptual understanding.`
+      },
+      {
+        title: "Low Participation of Rural Students in Competitive Examinations",
+        desc: `Students from rural backgrounds may lack access to quality preparation resources for national-level entrance examinations. Coaching support remains concentrated in urban centers.
+
+There is a need for equitable digital preparation platforms that provide structured, high-quality exam support to underserved regions.`
+      },
+      {
+        title: "Rising Digital Distraction Among Students",
+        desc: `Increased access to smartphones and social media affects student concentration and academic performance. There are lack tools to monitor digital wellness trends among adolescents.
+
+There is a need for systems that promote healthy digital behavior while supporting academic productivity.`
+      },
+      {
+        title: "Poor Tracking of Remedial Education Programs",
+        desc: `Special remedial classes are organized for academically weak students, but their long-term impact is rarely measured.
+
+There is a need for systems that track improvement trends and evaluate intervention effectiveness.`
+      },
+      {
+        title: "Unequal Access to STEM Laboratories and Practical Exposure",
+        desc: `Many rural schools lack science laboratories or modern equipment. Students are assessed theoretically without hands-on learning.
+
+There is a need for digital and shared-resource systems that expand practical STEM exposure equitably.`
+      },
+      {
+        title: "Limited Detection of Bullying and Peer Harassment in Schools",
+        desc: `Bullying incidents are often underreported due to fear or stigma. School authorities may only intervene after severe cases emerge.
+
+There is a need for safe, anonymous reporting systems that identify bullying patterns early.`
+      }
+    ]
+  },
+
+  agritech: {
+    icon: "🌱",
+    title: "AgriTech & Rural Development",
+    desc: "Precision farming, AI crop monitoring & disease detection, smart irrigation, supply chain solutions for farmers, rural connectivity innovations.",
+    problems: [
+      {
+        title: "Fragmented Agricultural Data Across Agencies",
+        desc: `Agricultural data such as land records, crop patterns, irrigation status, weather data, and subsidy distribution are maintained by different departments with limited interoperability.
+
+This fragmentation prevents holistic farm-level decision-making and policy optimization.
+
+There is a need for integrated rural data governance systems that unify agricultural datasets for improved planning and farmer support.`
+      },
+      {
+        title: "Inefficient Crop Insurance Claim Verification",
+        desc: `Crop insurance schemes rely on damage assessments that may be delayed or inconsistent across districts.
+
+Manual inspection methods slow compensation, increasing farmer distress.
+
+There is a need for transparent and technology-enabled verification systems that streamline crop loss assessment and claims processing.`
+      },
+      {
+        title: "Weak Monitoring of Agricultural Subsidy Utilization",
+        desc: `Subsidies for seeds, fertilizers, irrigation equipment, and machinery are widely distributed. However, tracking whether subsidies reach intended beneficiaries and are used effectively remains challenging.
+
+There is a need for accountability systems that monitor subsidy distribution and impact at the farm level.`
+      },
+      {
+        title: "Lack of Real-Time Market Intelligence for Farmers",
+        desc: `Farmers often lack access to real-time pricing data across markets, leading to distress sales.
+
+Information asymmetry benefits intermediaries more than producers.
+
+There is a need for transparent agricultural market intelligence systems that empower farmers with timely pricing insights.`
+      },
+      {
+        title: "Poor Integration Between Agricultural Research and Field-Level Adoption",
+        desc: `Research institutions develop improved crop varieties and farming techniques, but adoption at the farmer level remains inconsistent. Knowledge dissemination mechanisms are limited.
+
+There is a need for systems that track adoption rates and bridge the gap between research output and rural implementation.`
+      },
+      {
+        title: "Limited Monitoring of Rural Infrastructure Projects",
+        desc: `Rural roads, irrigation canals, storage facilities, and electrification projects may face delays and quality concerns. Monitoring progress and quality standards remains fragmented.
+
+There is a need for digital governance systems that ensure transparency and accountability in rural infrastructure development.`
+      },
+      {
+        title: "Weak Early Warning for Rural Economic Distress",
+        desc: `Rural distress often manifests through declining crop yields, falling prices, and rising debt levels. Data on these indicators is not always analyzed collectively.
+
+There is a need for predictive rural distress monitoring systems that identify early warning signals.`
+      },
+      {
+        title: "Inefficient Management of Farmer Producer Organizations (FPOs)",
+        desc: `FPOs aim to strengthen collective bargaining power, but governance and financial management systems vary widely. Lack of standardized tracking limits performance evaluation.
+
+There is a need for governance platforms that monitor FPO financial health and operational efficiency.`
+      },
+      {
+        title: "Limited Monitoring of Groundwater Usage in Agriculture",
+        desc: `Groundwater extraction for irrigation is increasing without coordinated monitoring.
+
+Depletion patterns vary regionally. There is a need for real-time monitoring systems that assess irrigation water usage and sustainability.`
+      },
+      {
+        title: "Poor Tracking of Rural Youth Employment Transition",
+        desc: `Skill training programs target rural youth, but long-term employment outcomes are rarely tracked. Migration patterns and local job absorption remain unclear.
+
+There is a need for systems that monitor rural employment transitions and inform policy adjustments.`
+      }
+    ]
+  },
+
+  cybersecurity: {
+    icon: "👩🏻‍💻",
+    title: "Cybersecurity & Defense",
+    desc: "Advanced threat detection, data privacy tools, secure communication platforms, drone/robotics applications in surveillance, naval & border security.",
+    problems: [
+      {
+        title: "Increasing Vulnerability of Critical Infrastructure to Cyber Attacks",
+        desc: `Power grids, telecom networks, transportation systems, and financial platforms are increasingly digitized. Cyber attacks on these systems can disrupt essential services nationwide.
+
+There is a need for advanced monitoring systems that detect and mitigate threats to critical infrastructure in real time.`
+      },
+      {
+        title: "Lack of Unified Threat Intelligence Sharing Across Agencies",
+        desc: `Security agencies collect cyber threat intelligence independently. Limited inter-agency coordination delays unified response.
+
+There is a need for secure intelligence-sharing platforms that enable real-time collaboration across agencies.`
+      },
+      {
+        title: "Weak Detection of Deepfake and Synthetic Media Threats",
+        desc: `Deepfake technology can manipulate audio and video to spread misinformation or incite unrest. Manual verification processes are slow.
+
+There is a need for automated detection systems that identify synthetic media before it spreads widely.`
+      },
+      {
+        title: "Inadequate Cyber Hygiene Among Government Employees",
+        desc: `Human error remains a major cause of data breaches. Training programs may not be continuously monitored.
+
+There is a need for systems that track cyber hygiene compliance and reduce insider risk.`
+      },
+      {
+        title: "Limited Preparedness for Coordinated Multi-Domain Attacks",
+        desc: `Modern threats combine cyber attacks, misinformation campaigns, and infrastructure disruption. Defense planning often treats these risks separately.
+
+There is a need for integrated threat modeling systems that assess cross-domain attack scenarios.`
+      }
+    ]
+  },
+
+  robotics: {
+    icon: "🖥️⚙️",
+    title: "Robotics and IoT",
+    desc: "The Robotics and IoT track focuses on building intelligent systems that interact with the real world using sensors, automation, and connectivity.",
+    problems: [
+      {
+        title: "Lack of Continuous Monitoring of Public Utility Assets",
+        desc: `Transformers, pipelines, water pumps, and street infrastructure degrade over time.
+
+Periodic inspections may not detect early failure signs.
+
+There is a need for sensor-based monitoring systems that provide continuous asset health visibility.`
+      },
+      {
+        title: "Limited Automation in Disaster Response Operations",
+        desc: `During floods or earthquakes, manual search-and-rescue operations may face delays in high-risk zones. Remote assessment tools remain limited.
+
+There is a need for robotics-based disaster response systems that support rapid situational awareness.`
+      },
+      {
+        title: "Inefficient Monitoring of Industrial Emissions",
+        desc: `Industrial units may not have continuous emission monitoring systems integrated with regulatory authorities. Violations may go undetected for long periods.
+
+There is a need for IoT-enabled emission tracking systems that ensure compliance.`
+      },
+      {
+        title: "Weak Infrastructure for Smart Agriculture Monitoring",
+        desc: `Precision agriculture adoption remains limited due to lack of affordable sensor networks. Farmers rely on manual observation rather than data.
+
+There is a need for scalable IoT frameworks that support real-time soil, crop, and weather monitoring.`
+      },
+      {
+        title: "Limited Monitoring of Structural Health in Large Public Projects",
+        desc: `Dams, tunnels, and flyovers require continuous stress monitoring. Manual inspection may not detect internal structural fatigue.
+
+There is a need for IoT-based structural health monitoring systems for public safety.`
+      }
+    ]
+  },
+
+  womensafety: {
+    icon: "👩‍👧",
+    title: "Women & Child Safety",
+    desc: "Focused applications enhancing public safety, emergency response & protection for women and children.",
+    problems: [
+      {
+        title: "Underreporting of Domestic Violence Cases",
+        desc: `Victims may avoid reporting abuse due to stigma, financial dependence, or fear of retaliation. Existing reporting channels may not ensure confidentiality.
+
+There is a need for secure and discreet reporting systems that improve survivor access to protection services.`
+      },
+      {
+        title: "Weak Monitoring of Child Trafficking Networks",
+        desc: `Child trafficking operates across state borders with limited real-time coordination.
+
+Victim identification may occur only after exploitation.
+
+There is a need for integrated surveillance and intelligence systems that detect trafficking risk patterns early.`
+      },
+      {
+        title: "Limited Access to Psychological Counselling for Vulnerable Children",
+        desc: `Children experiencing trauma, abuse, or neglect may lack access to professional counselling. Schools and child welfare agencies may not have structured monitoring systems.
+
+There is a need for systems that detect emotional distress early and connect children to appropriate support.`
+      },
+      {
+        title: "Safety Gaps in Public Transportation for Women",
+        desc: `Women often experience harassment during daily commute. Incident reporting systems may lack transparency and follow-up tracking.
+
+There is a need for integrated monitoring and rapid-response systems that enhance public transport safety.`
+      },
+      {
+        title: "Lack of Unified Missing Child Alert System",
+        desc: `When children go missing, response coordination across districts may be delayed.
+
+Information sharing between agencies remains fragmented.
+
+There is a need for real-time alert and tracking systems that improve inter-agency coordination.`
+      }
+    ]
+  },
+
+  gaming: {
+    icon: "🎮",
+    title: "Gaming & Entertainment",
+    desc: "Gamification, culturally relevant games, interactive entertainment experiences, AR/VR concepts.",
+    problems: [
+      {
+        title: "Rising Online Gaming Addiction Among Adolescents",
+        desc: `Online multiplayer and mobile games are increasingly engaging younger audiences through reward loops, competitive ranking systems, and social validation mechanics. While gaming can offer cognitive and social benefits, excessive use has been linked to sleep disruption, academic decline, behavioral issues, and social withdrawal among adolescents.
+
+Parents and schools often struggle to identify early warning signs of problematic gaming behavior before it escalates into addiction-like dependency.
+
+An innovative solution is required to identify early risk patterns of excessive gaming behavior and support healthier digital engagement among adolescents.`
+      },
+      {
+        title: "Unregulated In-Game Microtransactions and Financial Exploitation",
+        desc: `Many games include in-app purchases, loot boxes, and randomized reward systems that encourage repeated spending. Younger users may not fully understand the financial implications, leading to unexpected charges and household financial stress.
+
+Current disclosure mechanisms are often insufficiently transparent, and parental control awareness remains low.
+
+An innovative solution is required to improve transparency, spending awareness, and consumer protection in digital gaming ecosystems.`
+      },
+      {
+        title: "Exposure to Harmful or Age-Inappropriate Content in Online Games",
+        desc: `Online gaming environments may expose minors to violent content, adult language, harassment, or grooming attempts. Age verification systems are often weak or easily bypassed.
+
+Parents and regulators face challenges in monitoring real-time interactions across global multiplayer platforms.
+
+An innovative solution is required to strengthen child safety mechanisms and ensure age-appropriate digital gaming experiences.`
+      },
+      {
+        title: "Cyberbullying and Harassment in Multiplayer Gaming Platforms",
+        desc: `Voice chats, live streams, and in-game messaging systems can become channels for harassment, hate speech, and coordinated bullying. Victims may experience psychological distress and disengagement from online spaces.
+
+Reporting systems are often reactive, and moderation may not scale effectively across large player bases.
+
+An innovative solution is required to detect harmful interactions early and strengthen digital safety within multiplayer gaming communities.`
+      },
+      {
+        title: "Data Privacy Risks in Gaming Applications",
+        desc: `Gaming platforms collect extensive user data, including behavioral patterns, location data, and purchasing habits. Users may not fully understand how this data is used or shared with third parties.
+
+Children and adolescents are particularly vulnerable to opaque data practices.
+
+An innovative solution is required to improve transparency and protect user data privacy in gaming ecosystems.`
+      },
+      {
+        title: "Gambling-Like Mechanics in Video Games",
+        desc: `Features such as loot boxes and randomized rewards resemble gambling behavior and may normalize risk-based spending patterns among minors. Long-term psychological and financial impacts are not fully understood, and regulatory frameworks vary across jurisdictions.
+
+An innovative solution is required to identify and mitigate harmful gambling-like mechanics in gaming environments.`
+      },
+      {
+        title: "Lack of Awareness About Digital Wellbeing in Gaming Communities",
+        desc: `Many gamers lack awareness of healthy screen-time balance, ergonomic practices, and mental health considerations associated with prolonged gaming. Public health messaging around digital wellbeing is often generic and not tailored to gaming culture.
+
+An innovative solution is required to promote balanced gaming habits and strengthen digital wellbeing awareness among players.`
+      },
+      {
+        title: "Limited Inclusion and Accessibility in Gaming Platforms",
+        desc: `Gamers with disabilities may face barriers due to lack of adaptive controls, accessible design features, or inclusive community spaces.
+
+Representation gaps and accessibility barriers reduce participation and inclusion.
+
+An innovative solution is required to improve accessibility standards and promote inclusive gaming environments.`
+      },
+      {
+        title: "Fraud and Scams Targeting Gamers",
+        desc: `Scammers exploit gaming communities through fake tournament registrations, phishing links, in-game item scams, and account takeover attempts.
+
+Younger players are particularly vulnerable due to limited awareness of digital fraud risks.
+
+An innovative solution is required to identify scam patterns and strengthen protective awareness for gaming communities.`
+      },
+      {
+        title: "Esports Regulatory and Governance Gaps",
+        desc: `Competitive esports is rapidly expanding, but governance standards related to contracts, player welfare, match-fixing, and age eligibility remain inconsistent. Young professional players may face exploitation due to lack of standardized oversight.
+
+An innovative solution is required to strengthen governance transparency and protect participant rights in esports ecosystems.`
+      },
+      {
+        title: "Toxicity and Radicalization Risks in Online Gaming Spaces",
+        desc: `Open voice and chat environments can sometimes be exploited for spreading extremist narratives, hate ideologies, or coordinated misinformation campaigns.
+
+Detection is difficult due to coded language and dynamic interactions.
+
+An innovative solution is required to identify harmful narrative patterns and promote safe, inclusive gaming communities.`
+      },
+      {
+        title: "Environmental Impact of Data-Intensive Gaming Infrastructure",
+        desc: `Online gaming requires large data centers, high energy consumption, and hardware manufacturing. Sustainability impact from gaming growth is rarely analyzed or communicated to consumers.
+
+An innovative solution is required to improve environmental accountability and promote sustainable gaming infrastructure practices.`
+      },
+      {
+        title: "Lack of Consumer Clarity on Digital Ownership of In-Game Assets",
+        desc: `Gamers often invest time and money in digital skins, characters, and assets without clarity on ownership rights, transferability, or platform dependence.
+
+Disputes arise when accounts are banned or services are discontinued.
+
+An innovative solution is required to improve transparency and consumer protection regarding digital asset ownership in gaming platforms.`
+      },
+      {
+        title: "Psychological Impact of Competitive Ranking Systems",
+        desc: `Leaderboards and competitive ranking systems can create pressure, anxiety, and unhealthy comparison among players.
+
+While competition motivates engagement, poorly balanced ranking dynamics may affect mental wellbeing, especially among adolescents.
+
+An innovative solution is required to identify harmful engagement patterns and promote psychologically healthier competitive environments.`
+      }
+    ]
+  },
+
+  openinnovation: {
+    icon: "🌐",
+    title: "Open Innovation",
+    desc: "No restrictions — bring your wildest, most creative ideas to life.",
+    problems: [
+      {
+        title: "Open Challenge — Any Real-World Problem",
+        desc: `There are no domain restrictions for this track. Participants are free to identify any significant real-world challenge and develop an innovative, technology-driven solution to address it.
+
+The problem must be clearly defined, impactful, and solvable through technology.`
+      }
+    ]
+  },
+
+  tourism: {
+    icon: "🗺️",
+    title: "Tourism",
+    desc: "Tech solutions improving travel experience, local discovery, sustainable tourism, hospitality innovation.",
+    problems: [
+      {
+        title: "Open Challenge — Tourism Innovation",
+        desc: `Participants are invited to identify a real problem in the tourism sector — such as traveller safety, local discovery, sustainable tourism practices, accessibility for differently-abled tourists, or hospitality management — and build an innovative tech-driven solution.
+
+The problem must be clearly defined and relevant to the tourism, travel, or hospitality sector.`
+      }
+    ]
+  },
+
+  smartedu: {
+    icon: "🎓",
+    title: "Smart Education",
+    desc: "Data-driven, personalized and adaptive education systems that transform learning at scale using technology.",
+    problems: [
+      {
+        title: "Lack of Personalized Learning Support for Students",
+        desc: `In many classrooms, all students are taught using the same teaching methods and pace, even though learning abilities vary widely. Some students struggle to understand concepts while others progress quickly, but teachers may not have enough time to provide individual attention. As a result, slow learners may fall behind and lose confidence, while advanced learners may not be sufficiently challenged.
+
+There is a need for systems that can identify individual learning needs and support personalized learning for students.`
+      },
+      {
+        title: "Limited Real-Time Monitoring of Student Learning Progress",
+        desc: `Student performance is usually evaluated through periodic exams and tests, which may not reflect continuous learning progress. Teachers may not always know which topics students find difficult until examination results are available. Delayed identification of learning gaps makes timely intervention difficult.
+
+There is a need for systems that can track student learning progress continuously and help teachers identify learning gaps early.`
+      },
+      {
+        title: "Lack of Data-Driven Teaching Support for Teachers",
+        desc: `Teachers often rely on traditional teaching methods without access to data about student understanding and classroom performance. Without proper insights, it becomes difficult to adjust teaching strategies effectively. Many teachers do not have tools to analyze student learning patterns.
+
+There is a need for systems that provide teachers with actionable insights to improve teaching effectiveness.`
+      },
+      {
+        title: "Difficulty in Identifying Students Who Need Extra Academic Support",
+        desc: `Some students may struggle academically but may not openly express their difficulties. Teachers may only notice problems after repeated poor performance.
+
+Early academic difficulties can lead to long-term learning gaps.
+
+There is a need for systems that can identify students who require additional academic support at an early stage.`
+      },
+      {
+        title: "Lack of Smart Attendance and Engagement Tracking",
+        desc: `Attendance records usually show whether a student is present or absent, but they do not reflect actual classroom participation or engagement. Students may attend classes without actively learning.
+
+There is a need for systems that track both attendance and engagement to improve learning outcomes.`
+      },
+      {
+        title: "Limited Access to Quality Learning Resources in Rural Schools",
+        desc: `Students in rural schools may not have access to updated textbooks, digital content, or advanced learning tools. This creates differences in learning opportunities between urban and rural students.
+
+There is a need for systems that improve access to quality learning resources for underserved schools.`
+      },
+      {
+        title: "Weak Integration Between Classroom Learning and Practical Skills",
+        desc: `Students often learn theoretical concepts without practical application or real-world examples. This gap makes it difficult for students to understand how knowledge applies to real-life situations. Practical learning opportunities may be limited in many institutions.
+
+There is a need for systems that connect classroom learning with practical skill development.`
+      },
+      {
+        title: "Limited Identification of Student Interests and Strengths",
+        desc: `Education systems mainly evaluate academic performance but rarely track student interests, talents, and strengths. Students may choose careers without understanding their abilities.
+
+There is a need for systems that identify student interests and strengths to support informed career decisions.`
+      },
+      {
+        title: "Limited Monitoring of Digital Learning Effectiveness",
+        desc: `Digital learning platforms are widely used, but institutions may not know whether students actually benefit from them. Usage statistics alone do not reflect learning outcomes.
+
+There is a need for systems that evaluate the effectiveness of digital learning tools.`
+      },
+      {
+        title: "Lack of Smart Assessment Systems",
+        desc: `Traditional exams mainly test memorization rather than understanding and problem-solving ability.
+
+Assessment methods may not reflect true learning levels.
+
+There is a need for systems that support smarter and more comprehensive student assessment.`
+      },
+      {
+        title: "Poor Communication Between Schools and Parents",
+        desc: `Parents often receive limited information about student progress apart from report cards or occasional meetings. Lack of regular communication affects student support at home.
+
+There is a need for systems that improve communication between schools and parents.`
+      },
+      {
+        title: "Limited Support for Self-Paced Learning",
+        desc: `Students learn at different speeds, but classroom teaching usually follows a fixed pace. Some students need more time to understand concepts.
+
+There is a need for systems that support self-paced learning and flexible education pathways.`
+      },
+      {
+        title: "Lack of Early Identification of Learning Loss After Academic Interruptions",
+        desc: `Students often experience learning loss after long holidays, school closures, or disruptions such as pandemics or natural disasters. Schools usually continue with the syllabus without accurately assessing how much knowledge students have lost.
+
+As a result, many students struggle silently because foundational concepts are missing.
+
+There is a need for systems that can measure learning loss and help institutions plan targeted academic recovery programs.`
+      },
+      {
+        title: "Absence of Continuous Competency-Based Learning Tracking",
+        desc: `Most education systems track marks and grades but do not track mastery of individual skills and competencies over time. A student may pass exams without fully understanding important concepts.
+
+Teachers lack tools to track competency development across subjects and years.
+
+There is a need for systems that monitor competency-based learning progress and support skill-based education.`
+      },
+      {
+        title: "Poor Detection of Concept-Level Learning Gaps",
+        desc: `Examination results usually show subject-wise marks but do not identify which specific concepts students failed to understand. Teachers may need to manually analyze answer sheets to identify learning gaps. This process is time-consuming and inconsistent.
+
+There is a need for systems that detect concept-level learning difficulties and support targeted teaching.`
+      },
+      {
+        title: "Lack of Adaptive Curriculum Pathways for Diverse Learners",
+        desc: `Students have different learning speeds and interests, but most education systems follow fixed curriculum pathways. Students who fall behind or move ahead cannot easily adjust learning pace.
+
+This rigid structure limits effective learning.
+
+There is a need for systems that support adaptive curriculum pathways based on student performance and learning pace.`
+      },
+      {
+        title: "Weak Integration Between Academic Learning and Real-World Skills",
+        desc: `Students often complete their education without developing practical skills required for real-life problem solving. Classroom learning and real-world applications remain disconnected. Employers frequently report skill gaps among graduates.
+
+There is a need for systems that connect academic learning with practical skill development and real-world applications.`
+      },
+      {
+        title: "Lack of Early Identification of Student Career Misalignment",
+        desc: `Many students select academic streams or courses without clear understanding of career requirements. Some realize the mismatch only after several years of study. Changing academic paths later becomes difficult.
+
+There is a need for systems that identify potential career alignment early and guide students toward suitable pathways.`
+      },
+      {
+        title: "Weak Monitoring of Student Engagement in Digital Learning",
+        desc: `Students may log into online learning platforms without actively participating in learning activities. Time spent online does not always reflect real engagement. Institutions often rely only on login statistics.
+
+There is a need for systems that measure meaningful engagement in digital learning environments.`
+      },
+      {
+        title: "Lack of Structured Peer Learning Systems",
+        desc: `Peer learning can improve understanding, but most institutions do not have structured mechanisms to connect students who can help each other academically. Peer support happens informally and inconsistently.
+
+There is a need for systems that organize and support structured peer learning networks.`
+      },
+      {
+        title: "Absence of Integrated Academic and Behavioral Analytics",
+        desc: `Academic performance and behavioral patterns such as attendance, discipline, and participation are often tracked separately. Combined analysis could provide better understanding of student progress.
+
+There is a need for systems that integrate academic and behavioral data to support holistic student development.`
+      },
+      {
+        title: "Limited Monitoring of Teaching Effectiveness",
+        desc: `Teacher performance is often evaluated through administrative reviews rather than student learning outcomes. Institutions may not have objective methods to measure teaching effectiveness.
+
+There is a need for systems that analyze teaching practices and link them with student learning outcomes.`
+      },
+      {
+        title: "Lack of Learning Pathway Recommendations for Students",
+        desc: `Students often struggle to decide which subjects or courses to choose after each academic stage.
+
+Decision-making depends mainly on limited guidance.
+
+There is a need for systems that recommend suitable learning pathways based on student strengths and interests.`
+      },
+      {
+        title: "Weak Identification of Students at Risk of Academic Burnout",
+        desc: `Students under continuous academic pressure may experience burnout, leading to declining performance and mental stress. Early warning signs are often overlooked.
+
+There is a need for systems that detect early indicators of academic burnout and support timely intervention.`
+      },
+      {
+        title: "Lack of Cross-Institution Academic Credit Tracking",
+        desc: `Students who move between institutions or pursue multiple courses may face difficulties transferring academic credits. Credit equivalence verification may take time.
+
+There is a need for systems that track academic credits across institutions securely.`
+      },
+      {
+        title: "Limited Visibility of Student Skill Development Over Time",
+        desc: `Students develop skills such as communication, teamwork, and problem solving during their education, but these skills are rarely documented systematically. Employers may not see a complete picture of student capabilities.
+
+There is a need for systems that track and showcase student skill development throughout education.`
+      },
+      {
+        title: "Lack of Early Detection of Digital Learning Inequality",
+        desc: `Students may appear enrolled in digital learning programs but lack stable internet access or adequate devices. These hidden inequalities affect learning outcomes.
+
+There is a need for systems that detect digital learning inequality and support targeted intervention.`
+      },
+      {
+        title: "Absence of a Unified Student Learning Profile Across Education Stages",
+        desc: `Students move from school to college and sometimes between institutions, but their academic progress, skills, and learning history are stored in separate systems. Teachers and institutions often cannot access a complete picture of a student's learning journey.
+
+This lack of continuity makes it difficult to provide personalized academic support and long-term guidance. Students may repeat the same assessments or lose important academic records.
+
+There is a need for systems that maintain a unified lifelong learning profile for students across institutions.`
+      },
+      {
+        title: "Lack of Early Identification of Foundational Learning Gaps at National Scale",
+        desc: `Many students develop learning gaps in early grades, especially in reading and mathematics, but these gaps often remain unnoticed until later classes.
+
+By the time the problem is recognized, students may struggle with advanced subjects.
+
+Large-scale education systems lack tools to identify learning gaps at an early stage.
+
+There is a need for systems that can detect foundational learning gaps early and support targeted academic interventions.`
+      },
+      {
+        title: "Absence of Real-Time National Education Monitoring Systems",
+        desc: `Education data such as attendance, learning outcomes, infrastructure, and teacher availability is collected periodically but not in real time. Policy decisions are often made based on outdated information. Delayed data reduces the effectiveness of education planning.
+
+There is a need for systems that provide real-time monitoring of education indicators at regional and national levels.`
+      },
+      {
+        title: "Weak Integration Between Education and Employment Data",
+        desc: `Education systems produce graduates every year, but there is limited information about their employment outcomes. Institutions cannot easily track whether students find jobs related to their field of study. Without employment data, curriculum improvement becomes difficult.
+
+There is a need for systems that connect education data with employment outcomes.`
+      },
+      {
+        title: "Lack of National-Level Skill Demand Forecasting",
+        desc: `Education institutions often design courses without accurate information about future job market needs.
+
+This creates mismatch between graduate skills and industry demand. Students may complete degrees without relevant employability skills.
+
+There is a need for systems that forecast future skill demand and support education planning.`
+      },
+      {
+        title: "Limited Identification of Regional Education Inequality",
+        desc: `Educational inequalities exist between districts and regions in terms of learning outcomes, infrastructure, and teacher availability. These differences are not always clearly measured or visualized. Without detailed insights, targeted interventions become difficult.
+
+There is a need for systems that identify regional education inequality and support policy planning.`
+      },
+      {
+        title: "Absence of Early Warning Systems for System-Wide Education Risks",
+        desc: `Education systems face disruptions from pandemics, climate events, economic shocks, and migration patterns. Preparedness for such disruptions remains limited. Schools often react after learning disruptions occur.
+
+There is a need for systems that predict large-scale education risks and support preparedness planning.`
+      },
+      {
+        title: "Weak Measurement of Education Quality Beyond Examination Scores",
+        desc: `Most education systems rely heavily on exam results to measure performance. Important aspects such as conceptual understanding, creativity, and problem-solving skills are rarely measured systematically.
+
+This limits the ability to evaluate true learning quality.
+
+There is a need for systems that measure broader education quality indicators.`
+      },
+      {
+        title: "Lack of Continuous Monitoring of Teacher Effectiveness at Scale",
+        desc: `Teacher training programs are conducted regularly, but their impact on classroom teaching is difficult to measure. Performance evaluation methods vary widely. Without proper monitoring, improvements in teaching quality may be limited.
+
+There is a need for systems that track teacher effectiveness and support continuous improvement.`
+      },
+      {
+        title: "Absence of Smart Resource Allocation Systems in Education",
+        desc: `Distribution of teachers, classrooms, and digital devices is often based on administrative decisions rather than data-driven analysis. Some schools face shortages while others have surplus resources. This imbalance affects learning opportunities.
+
+There is a need for systems that optimize allocation of education resources based on real needs.`
+      },
+      {
+        title: "Absence of Smart Academic Planning for Large Education Systems",
+        desc: `Curriculum changes, exam schedules, and academic calendars are often planned manually. Large education systems face coordination challenges. Planning inefficiencies affect students and teachers.
+
+There is a need for systems that support data-driven academic planning at scale.`
+      },
+      {
+        title: "Weak Integration Between Formal Education and Lifelong Learning",
+        desc: `People increasingly pursue multiple courses and certifications during their careers. Education systems rarely track lifelong learning pathways. Learning achievements may remain fragmented.
+
+There is a need for systems that support lifelong learning tracking and recognition.`
+      },
+      {
+        title: "Lack of Education Policy Impact Measurement Systems",
+        desc: `Education policies and schemes are implemented nationwide, but measuring their long-term impact remains difficult. Evaluation often depends on limited surveys. Policy improvements require better evidence.
+
+There is a need for systems that measure education policy outcomes systematically.`
+      },
+      {
+        title: "Absence of Continuous Student Skill Mapping Systems",
+        desc: `Students develop various skills throughout their education, but these skills are rarely tracked systematically over time. Most institutions focus only on academic marks rather than skill development. Students may graduate without clear documentation of their abilities.
+
+There is a need for systems that continuously track and map student skill development across education stages.`
+      },
+      {
+        title: "Poor Measurement of Actual Learning Quality Across Institutions",
+        desc: `Most institutions measure student performance using examination marks, but marks alone may not reflect true understanding or practical knowledge. Students may score well in exams while still lacking essential conceptual understanding and problem-solving skills.
+
+There is a need for systems that can evaluate actual learning quality using multiple indicators beyond traditional examination results.`
+      },
+      {
+        title: "Lack of Intelligent Academic Support for Teachers in Large Classrooms",
+        desc: `Teachers in many schools handle large classrooms with students having different learning abilities. Providing individual academic support becomes difficult due to limited time and resources. Teachers often lack tools that help them identify which students need specific support and what type of intervention is required.
+
+There is a need for intelligent teaching support systems that assist teachers in identifying learning gaps and planning targeted teaching strategies.`
+      },
+      {
+        title: "Limited Understanding of Real Learning Time",
+        desc: `Students may spend many hours in classrooms or online learning platforms, but actual effective learning time is not measured. Time spent does not always translate into understanding. Institutions lack insights into effective study patterns.
+
+There is a need for systems that measure real learning time and support better study practices.`
+      },
+      {
+        title: "Invisible Students Who Attend but Do Not Learn",
+        desc: `Some students regularly attend classes but fail to understand basic concepts. Because attendance and exam participation appear normal, these students may not be identified as needing support.
+
+Over time, learning gaps increase and students may lose confidence without teachers noticing early warning signs.
+
+There is a need for systems that can identify students who are physically present but academically disengaged or falling behind.`
+      },
+      {
+        title: "Hidden Learning Gaps After Automatic Promotion",
+        desc: `Students may be promoted to the next class even when they have not fully understood the previous year's subjects. Teachers in higher classes may assume prerequisite knowledge that students do not actually have. These hidden gaps accumulate over time and affect future learning.
+
+There is a need for systems that detect missing prerequisite knowledge when students enter new grades.`
+      },
+      {
+        title: "Lack of Visibility of Self-Learning Outside Classrooms",
+        desc: `Students spend significant time learning outside school through books, online videos, and other resources, but these efforts are rarely recognized or tracked. Teachers may not know how much independent learning students are doing. This limits understanding of actual student learning behavior.
+
+There is a need for systems that capture and reflect meaningful self-learning activities.`
+      }
+    ]
+  }
+
+};
+
+// ─── Navigation ───────────────────────────────────────────────
+function showProblems(domainId) {
+  const domain = domainData[domainId];
+  if (!domain) return;
+
+  document.getElementById('ps-icon').textContent = domain.icon;
+  document.getElementById('ps-domain-name').textContent = domain.title;
+  document.getElementById('ps-domain-desc').textContent = domain.desc;
+  document.getElementById('ps-count-badge').textContent =
+    domain.problems.length + ' Problem Statement' + (domain.problems.length !== 1 ? 's' : '');
+
+  const container = document.getElementById('problems-container');
+  container.innerHTML = domain.problems.map((p, i) => `
+    <div class="problem-card">
+      <div class="ps-number">${String(i + 1).padStart(2, '0')}</div>
+      <div>
+        <h3 class="ps-problem-title">${p.title}</h3>
+        <p class="ps-problem-desc">${p.desc.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</p>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('domains-page').classList.remove('active');
+  document.getElementById('problems-page').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showDomainsPage() {
+  document.getElementById('problems-page').classList.remove('active');
+  document.getElementById('domains-page').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── Stars ─────────────────────────────────────────────────────
+function createStars() {
+  const c = document.getElementById('starsContainer');
+  for (let i = 0; i < 100; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*5}s`;
+    c.appendChild(s);
+  }
+}
+window.addEventListener('load', createStars);
+</script>
 </body>
 </html>
